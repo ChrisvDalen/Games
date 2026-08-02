@@ -41,8 +41,9 @@ Run the tests:
 ./gradlew test
 ```
 
-Boot the game unattended (opens a window, plays for a few seconds, writes `smoke-test.png`, exits) —
-useful on a build machine, since the unit tests deliberately never open a window:
+Boot the game unattended (opens a window, plays for a few seconds, writes `smoke-world.png` and
+`smoke-test.png`, exits) — useful on a build machine, since the unit tests deliberately never open a
+window:
 
 ```bash
 ./gradlew :lwjgl3:fatJar
@@ -153,16 +154,31 @@ regenerates them. Once generated they are ordinary Tiled files and can be edited
 If any content file is malformed or refers to something that does not exist, the game says so on the
 title screen instead of starting.
 
-## Placeholder art
+## Art and interface style
 
-Every sprite and tile is a flat colour generated at runtime from the content files. The project
-ships no binary artwork beyond one small generated PNG that exists purely so the maps open with
-visible tiles in Tiled. See [docs/ASSETS.md](docs/ASSETS.md) for how to replace them with real
-sprites.
+The look is 16-bit-era pixel art: a chunky monospace bitmap font, framed parchment-and-wood panels,
+inset item slots, and a warm limited palette. The interface is laid out against a 640x360 canvas —
+exactly half of 720p and a third of 1080p — so at common window sizes every glyph and panel edge
+lands on a whole number of screen pixels and nothing blurs.
+
+All of it is original, and none of it is stored as an image file you have to open an editor to
+change:
+
+- **World sprites** are hand-drawn 16x16 pixel art, stored as text in `SpriteShapes.java`. Each row
+  is sixteen palette indices, so shape and colour are separate: one crop shape serves all four
+  crops, tinted from the colour each declares in JSON. Drawn at two world units per sprite pixel,
+  so world art is chunkier than interface text.
+- **The font** is an original 5x8 glyph set defined in `PixelGlyphs.java` and baked into
+  `assets/ui/pixel-font.{png,fnt}` by `./gradlew generatePixelFont`.
+- **Panels, buttons and slots** are nine-patches built in code by `UiSkinFactory`.
+
+Adding a fifth crop still needs no artwork - a colour in `crops.json` gets you a recoloured plant
+through all its growth stages. See [docs/ASSETS.md](docs/ASSETS.md) for how to draw new shapes or
+move to a conventional sprite sheet.
 
 ## Testing
 
-108 tests, all in `core/src/test`, none of which open a window:
+116 tests, all in `core/src/test`, none of which open a window:
 
 ```bash
 ./gradlew test
@@ -171,8 +187,8 @@ sprites.
 They cover inventory stacking and atomic removal, crop growth and withering, time progression and
 sleeping, repair material requirements, crafting, relationship tiers, quest objectives and
 prerequisites, conditional dialogue, journal and reveal gating, save validation and migration, map
-and portal integrity, and the complete first-milestone loop end to end. The shipped JSON is loaded
-by the tests, so a content mistake fails the build.
+and portal integrity, character coverage of the pixel font, sprite-shape integrity, and the
+complete first-milestone loop end to end. The shipped JSON is loaded by the tests, so a content mistake fails the build.
 
 ## Known limitations
 
@@ -183,11 +199,12 @@ by the tests, so a content mistake fails the build.
 - No controller or mouse-driven movement; keyboard only.
 - The reveal ends the authored story. Repairing every module and finishing every quest is possible,
   but there is no post-slice content after it.
-- Placeholder art throughout — readable and consistent, but geometric.
+- The player has a two-frame walk cycle and colonists a slow idle sway; nothing else is animated.
+- Sprites are 16x16 with no directional variants for colonists, and no seasonal or weather art.
 
 ## Originality
 
-The setting, characters, dialogue, crops, colony modules, maps, mystery and all artwork are
-original to this project. It shares a genre and a broad structure (top-down, day cycle, farming,
-relationships) with other life simulations; it contains no assets, names, text, art or content
-copied from any of them.
+The setting, characters, dialogue, crops, colony modules, maps, mystery, font and all artwork are
+original to this project. It shares a genre, a broad structure (top-down, day cycle, farming,
+relationships) and an era-typical pixel-art presentation with other life simulations; it contains no
+assets, names, text, art or content copied from any of them.

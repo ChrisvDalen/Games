@@ -16,7 +16,7 @@ public final class QuestLogOverlay extends Overlay {
     private final GameSession session;
 
     public QuestLogOverlay(Skin skin, GameSession session) {
-        super(skin, "Tasks", 760f, 470f);
+        super(skin, "Tasks", 560f, 300f);
         this.session = session;
         setFooter("Q or Esc to close");
     }
@@ -31,14 +31,14 @@ public final class QuestLogOverlay extends Overlay {
             list.add(new Label("Nothing outstanding. Talk to someone.", skin, "muted")).left().row();
         }
         for (QuestState state : active) {
-            list.add(buildQuest(state, false)).left().fillX().padBottom(12f).row();
+            list.add(buildQuest(state, false)).left().fillX().padBottom(3f).row();
         }
 
         List<QuestState> done = session.questLog().completed();
         if (!done.isEmpty()) {
-            list.add(new Label("Finished", skin, "accent")).left().padTop(8f).padBottom(4f).row();
+            list.add(new Label("Finished", skin, "accent")).left().padTop(4f).padBottom(2f).row();
             for (QuestState state : done) {
-                list.add(buildQuest(state, true)).left().fillX().padBottom(6f).row();
+                list.add(buildQuest(state, true)).left().fillX().padBottom(3f).row();
             }
         }
 
@@ -51,13 +51,13 @@ public final class QuestLogOverlay extends Overlay {
     private Table buildQuest(QuestState state, boolean finished) {
         Table entry = new Table(skin);
         entry.setBackground(skin.getDrawable("panel-soft"));
-        entry.pad(10f);
+        entry.pad(6f);
         entry.add(new Label(state.definition().title(), skin, finished ? "muted" : "accent")).left().row();
 
         if (!finished) {
             Label summary = new Label(state.definition().summary(), skin, "default");
             summary.setWrap(true);
-            entry.add(summary).left().width(660f).padTop(2f).row();
+            entry.add(summary).left().width(490f).padTop(1f).row();
 
             List<Objective> objectives = state.definition().objectives();
             for (int i = 0; i < objectives.size(); i++) {
@@ -68,7 +68,7 @@ public final class QuestLogOverlay extends Overlay {
                 String counter = objective.target() > 1 ? "  (" + progress + "/" + objective.target() + ")" : "";
                 entry.add(new Label(tick + " " + objective.description() + counter,
                                 skin, complete ? "accent" : "default"))
-                        .left().padTop(3f).padLeft(6f).row();
+                        .left().padTop(2f).padLeft(4f).row();
             }
         }
         return entry;

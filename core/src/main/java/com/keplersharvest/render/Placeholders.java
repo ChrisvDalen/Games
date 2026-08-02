@@ -98,6 +98,7 @@ public final class Placeholders implements Disposable {
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         Texture texture = new Texture(pixmap);
+        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         pixmap.dispose();
         return texture;
     }
@@ -109,6 +110,7 @@ public final class Placeholders implements Disposable {
         pixmap.setColor(Color.WHITE);
         pixmap.fillCircle(size / 2, size / 2, size / 2 - 1);
         Texture texture = new Texture(pixmap);
+        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         pixmap.dispose();
         return texture;
     }
@@ -123,6 +125,7 @@ public final class Placeholders implements Disposable {
         pixmap.setColor(0f, 0f, 0f, 0f);
         pixmap.fillCircle(size / 2, size / 2, size / 2 - 4);
         Texture texture = new Texture(pixmap);
+        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         pixmap.dispose();
         return texture;
     }
@@ -138,6 +141,7 @@ public final class Placeholders implements Disposable {
             pixmap.drawLine(half - spread, y, half + spread, y);
         }
         Texture texture = new Texture(pixmap);
+        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         pixmap.dispose();
         return texture;
     }
@@ -155,6 +159,7 @@ public final class Placeholders implements Disposable {
             pixmap.drawPixel(x, y);
         }
         Texture texture = new Texture(pixmap);
+        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         pixmap.dispose();
         return texture;
     }

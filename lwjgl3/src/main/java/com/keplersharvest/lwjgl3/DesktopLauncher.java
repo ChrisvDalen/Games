@@ -70,6 +70,9 @@ public final class DesktopLauncher {
                 com.badlogic.gdx.Input.Keys.I,
             };
             try {
+                Thread.sleep(step);
+                // One shot of the world and HUD before any panel covers them.
+                com.badlogic.gdx.Gdx.app.postRunnable(() -> captureScreenshot("smoke-world.png"));
                 for (int key : panelKeys) {
                     Thread.sleep(step);
                     press(key);
@@ -80,7 +83,7 @@ public final class DesktopLauncher {
                 return;
             }
             com.badlogic.gdx.Gdx.app.postRunnable(() -> {
-                captureScreenshot();
+                captureScreenshot("smoke-test.png");
                 System.out.println("Smoke test: ran for ~" + seconds + "s without error, exiting.");
                 com.badlogic.gdx.Gdx.app.exit();
             });
@@ -99,17 +102,17 @@ public final class DesktopLauncher {
         });
     }
 
-    /** Writes {@code smoke-test.png} beside the working directory so a build can eyeball the render. */
-    private static void captureScreenshot() {
+    /** Writes a PNG beside the working directory so a build can eyeball what was rendered. */
+    private static void captureScreenshot(String fileName) {
         try {
             com.badlogic.gdx.graphics.Pixmap pixmap = com.badlogic.gdx.graphics.Pixmap.createFromFrameBuffer(
                     0, 0,
                     com.badlogic.gdx.Gdx.graphics.getBackBufferWidth(),
                     com.badlogic.gdx.Gdx.graphics.getBackBufferHeight());
             com.badlogic.gdx.graphics.PixmapIO.writePNG(
-                    com.badlogic.gdx.Gdx.files.local("smoke-test.png"), pixmap, 6, true);
+                    com.badlogic.gdx.Gdx.files.local(fileName), pixmap, 6, true);
             pixmap.dispose();
-            System.out.println("Smoke test: wrote smoke-test.png");
+            System.out.println("Smoke test: wrote " + fileName);
         } catch (RuntimeException e) {
             System.out.println("Smoke test: could not capture a screenshot - " + e.getMessage());
         }

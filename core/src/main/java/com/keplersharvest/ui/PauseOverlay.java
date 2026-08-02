@@ -16,7 +16,7 @@ public final class PauseOverlay extends Overlay {
     private String status = "";
 
     public PauseOverlay(Skin skin, Runnable onResume, Runnable onSave, Runnable onQuitToTitle, Runnable onExit) {
-        super(skin, "Paused", 420f, 330f);
+        super(skin, "Paused", 300f, 200f);
         this.onResume = onResume;
         this.onSave = onSave;
         this.onQuitToTitle = onQuitToTitle;
@@ -35,11 +35,11 @@ public final class PauseOverlay extends Overlay {
     @Override
     protected void rebuild() {
         content().clear();
-        content().add(button("Resume", onResume)).fillX().padBottom(8f).row();
-        content().add(button("Save game", onSave)).fillX().padBottom(8f).row();
-        content().add(button("Save and quit to title", onQuitToTitle)).fillX().padBottom(8f).row();
-        content().add(button("Quit to desktop", onExit)).fillX().padBottom(8f).row();
-        content().add(new Label(status, skin, "accent")).left().padTop(6f);
+        content().add(button("Resume", onResume)).fillX().padBottom(4f).row();
+        content().add(button("Save game", onSave)).fillX().padBottom(4f).row();
+        content().add(button("Save and quit to title", onQuitToTitle)).fillX().padBottom(4f).row();
+        content().add(button("Quit to desktop", onExit)).fillX().padBottom(4f).row();
+        content().add(new Label(status, skin, "accent")).left().padTop(3f);
     }
 
     private TextButton button(String text, Runnable action) {

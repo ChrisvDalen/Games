@@ -65,7 +65,7 @@ public final class PlayScreen extends ScreenAdapter {
         this.game = game;
         this.session = session;
         this.actions = new PlayerActions(session);
-        this.renderer = new WorldRenderer(game.art());
+        this.renderer = new WorldRenderer(game.art(), game.sprites());
         this.stage = new Stage(new FitViewport(UiSkinFactory.UI_WIDTH, UiSkinFactory.UI_HEIGHT));
         this.hud = new Hud(game.skin(), session);
 

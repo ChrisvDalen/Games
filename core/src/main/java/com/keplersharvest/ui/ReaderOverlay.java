@@ -17,7 +17,7 @@ public final class ReaderOverlay extends Overlay {
     private List<String> paragraphs = List.of();
 
     public ReaderOverlay(Skin skin) {
-        super(skin, "Data Slate", 760f, 470f);
+        super(skin, "Data Slate", 590f, 310f);
         setFooter("Esc or Enter to close");
     }
 
@@ -49,14 +49,14 @@ public final class ReaderOverlay extends Overlay {
     protected void rebuild() {
         content().clear();
         Table page = new Table();
-        page.add(new Label(heading, skin, "accent")).left().width(680f).row();
+        page.add(new Label(heading, skin, "accent")).left().width(540f).row();
         if (!byline.isBlank()) {
-            page.add(new Label(byline, skin, "muted")).left().padBottom(8f).row();
+            page.add(new Label(byline, skin, "muted")).left().padBottom(5f).row();
         }
         for (String paragraph : paragraphs) {
             Label line = new Label(paragraph, skin, "default");
             line.setWrap(true);
-            page.add(line).left().width(680f).padTop(8f).row();
+            page.add(line).left().width(540f).padTop(5f).row();
         }
         ScrollPane scroll = new ScrollPane(page, skin);
         scroll.setFadeScrollBars(false);

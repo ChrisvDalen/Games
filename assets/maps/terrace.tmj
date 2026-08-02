@@ -2053,6 +2053,11 @@
        "value": "resin_fibre"
       },
       {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_stalk"
+      },
+      {
        "name": "min",
        "type": "int",
        "value": 2
@@ -2084,6 +2089,11 @@
        "name": "item",
        "type": "string",
        "value": "resin_fibre"
+      },
+      {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_stalk"
       },
       {
        "name": "min",
@@ -2119,6 +2129,11 @@
        "value": "resin_fibre"
       },
       {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_stalk"
+      },
+      {
        "name": "min",
        "type": "int",
        "value": 2
@@ -2152,6 +2167,11 @@
        "value": "silica_shard"
       },
       {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_mineral"
+      },
+      {
        "name": "min",
        "type": "int",
        "value": 1
@@ -2183,6 +2203,11 @@
        "name": "item",
        "type": "string",
        "value": "silica_shard"
+      },
+      {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_mineral"
       },
       {
        "name": "min",

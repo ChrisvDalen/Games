@@ -17,7 +17,7 @@ public final class InventoryOverlay extends Overlay {
     private final GameSession session;
 
     public InventoryOverlay(Skin skin, GameSession session) {
-        super(skin, "Pack", 860f, 500f);
+        super(skin, "Pack", 580f, 310f);
         this.session = session;
         setFooter("1-8 select a toolbar slot   -   I or Esc to close");
     }
@@ -30,14 +30,14 @@ public final class InventoryOverlay extends Overlay {
         int size = session.inventory().size();
         for (int index = 0; index < size; index++) {
             Table cell = buildSlot(index);
-            grid.add(cell).width(124f).height(60f).pad(3f);
+            grid.add(cell).width(86f).height(40f).pad(3f);
             if ((index + 1) % COLUMNS == 0) {
                 grid.row();
             }
         }
         content().add(grid).left().top().row();
 
-        content().add(buildDetails()).left().top().padTop(14f).width(790f);
+        content().add(buildDetails()).left().top().padTop(8f).width(552f);
     }
 
     private Table buildSlot(int index) {
@@ -45,14 +45,14 @@ public final class InventoryOverlay extends Overlay {
         boolean onToolbar = index < session.toolbar().size();
         boolean selected = onToolbar && index == session.toolbar().selectedIndex();
         cell.setBackground(skin.getDrawable(selected ? "slot-selected" : "slot"));
-        cell.pad(5f);
+        cell.pad(3f);
 
         Optional<ItemStack> stack = session.inventory().slot(index);
         String corner = onToolbar ? String.valueOf(index + 1) : " ";
         cell.add(new Label(corner, skin, "muted")).left().top().row();
         if (stack.isPresent()) {
             ItemStack held = stack.get();
-            cell.add(new Label(shorten(held.item().name()), skin, "default")).left().width(112f).row();
+            cell.add(new Label(shorten(held.item().name()), skin, "default")).left().width(80f).row();
             if (held.item().stackable()) {
                 cell.add(new Label("x" + held.count(), skin, "accent")).left();
             } else {
@@ -69,7 +69,7 @@ public final class InventoryOverlay extends Overlay {
     private Table buildDetails() {
         Table details = new Table(skin);
         details.setBackground(skin.getDrawable("panel-soft"));
-        details.pad(12f);
+        details.pad(7f);
         Optional<ItemStack> selected = session.toolbar().selected();
         if (selected.isEmpty()) {
             details.add(new Label("Nothing equipped. Press 1-8 to choose a toolbar slot.", skin, "muted")).left();
@@ -79,16 +79,16 @@ public final class InventoryOverlay extends Overlay {
         details.add(new Label(stack.item().name(), skin, "accent")).left().row();
         Label description = new Label(stack.item().description(), skin, "default");
         description.setWrap(true);
-        details.add(description).left().width(760f).padTop(4f).row();
+        details.add(description).left().width(524f).padTop(2f).row();
         String meta = stack.item().category().name().toLowerCase(java.util.Locale.ROOT)
                 + (stack.item().stackable() ? "   -   stacks to " + stack.item().maxStack() : "   -   does not stack");
-        details.add(new Label(meta, skin, "muted")).left().padTop(6f);
+        details.add(new Label(meta, skin, "muted")).left().padTop(3f);
         return details;
     }
 
     /** Grid cells are narrow; the full name is always visible in the details panel below. */
     private String shorten(String name) {
-        return name.length() <= 15 ? name : name.substring(0, 14) + ".";
+        return name.length() <= 13 ? name : name.substring(0, 12) + ".";
     }
 
     @Override
