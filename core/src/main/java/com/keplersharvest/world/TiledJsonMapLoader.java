@@ -37,16 +37,18 @@ public final class TiledJsonMapLoader {
         int firstGid = Json5.integer(root, "firstgid", 1);
         Map<Integer, String> colours = new LinkedHashMap<>();
         Map<Integer, String> labels = new LinkedHashMap<>();
+        Map<Integer, String> patterns = new LinkedHashMap<>();
         for (JsonValue tile : Json5.array(root, "tiles")) {
             int id = Json5.requireInt(tile, "id", path);
             Map<String, String> properties = readProperties(tile);
             colours.put(id, properties.getOrDefault("colour", "ff00ff"));
             labels.put(id, properties.getOrDefault("label", Json5.string(tile, "type", "tile" + id)));
+            patterns.put(id, properties.getOrDefault("pattern", TileSet.DEFAULT_PATTERN));
         }
         if (colours.isEmpty()) {
             throw new ConfigurationException("Tileset " + path + " declares no tiles");
         }
-        return new TileSet(Json5.string(root, "name", path), firstGid, colours, labels);
+        return new TileSet(Json5.string(root, "name", path), firstGid, colours, labels, patterns);
     }
 
     public WorldMap load(String mapId, String path) {

@@ -2617,6 +2617,11 @@
        "value": "scrap_alloy"
       },
       {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_scrap"
+      },
+      {
        "name": "min",
        "type": "int",
        "value": 2
@@ -2648,6 +2653,11 @@
        "name": "item",
        "type": "string",
        "value": "scrap_alloy"
+      },
+      {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_scrap"
       },
       {
        "name": "min",
@@ -2683,6 +2693,11 @@
        "value": "scrap_alloy"
       },
       {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_scrap"
+      },
+      {
        "name": "min",
        "type": "int",
        "value": 2
@@ -2716,6 +2731,11 @@
        "value": "salvaged_cell"
       },
       {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_scrap"
+      },
+      {
        "name": "min",
        "type": "int",
        "value": 1
@@ -2747,6 +2767,11 @@
        "name": "item",
        "type": "string",
        "value": "salvaged_cell"
+      },
+      {
+       "name": "sprite",
+       "type": "string",
+       "value": "node_scrap"
       },
       {
        "name": "min",

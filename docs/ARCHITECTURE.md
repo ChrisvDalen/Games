@@ -129,9 +129,14 @@ can rename or default fields that no longer exist as Java members.
 
 ## Rendering
 
-`Placeholders` builds a handful of textures at start-up — a pixel, a disc, a ring, a diamond, a
-speckle — and everything is drawn as one of those, tinted with a colour taken from the content
-files. A new crop or module is visible without touching the renderer.
+World art is hand-drawn 16x16 pixel art stored as palette-index text in `SpriteShapes`, baked by
+`WorldSprites` into a single texture at start-up. Storing indices rather than colours is the load-
+bearing decision: one crop shape serves all four crops, tinted from the colour each declares in
+JSON, so a new crop is a content edit and not an art task. Everything lands in one texture, so the
+world draws in a single bind rather than a flush per sprite type.
+
+`Placeholders` survives for the few things that are not sprites — the interaction outline, drop
+shadows, the landmark glow.
 
 `WorldRenderer` reads game state and writes none of it. Day/night is a tint factor computed from the
 clock and multiplied through every draw.

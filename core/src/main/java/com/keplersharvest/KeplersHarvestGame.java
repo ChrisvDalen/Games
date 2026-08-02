@@ -7,6 +7,7 @@ import com.keplersharvest.configuration.ContentLoader;
 import com.keplersharvest.configuration.GameContent;
 import com.keplersharvest.configuration.GdxResourceReader;
 import com.keplersharvest.render.Placeholders;
+import com.keplersharvest.render.WorldSprites;
 import com.keplersharvest.save.SaveGameService;
 import com.keplersharvest.screens.PlayScreen;
 import com.keplersharvest.screens.TitleScreen;
@@ -24,6 +25,7 @@ public final class KeplersHarvestGame extends Game {
 
     private GameContent content;
     private Placeholders art;
+    private WorldSprites sprites;
     private Skin skin;
     private SaveGameService saves;
     private String startupError;
@@ -52,6 +54,9 @@ public final class KeplersHarvestGame extends Game {
             startupError = e.getMessage();
             Gdx.app.error(TITLE, "Content failed to load", e);
         }
+        if (content != null) {
+            sprites = WorldSprites.build(content);
+        }
         if (skipTitle && content != null) {
             setScreen(new PlayScreen(this,
                     com.keplersharvest.game.GameSession.newGame(content, System.currentTimeMillis())));
@@ -66,6 +71,10 @@ public final class KeplersHarvestGame extends Game {
 
     public Placeholders art() {
         return art;
+    }
+
+    public WorldSprites sprites() {
+        return sprites;
     }
 
     public Skin skin() {
@@ -91,6 +100,9 @@ public final class KeplersHarvestGame extends Game {
         }
         if (art != null) {
             art.dispose();
+        }
+        if (sprites != null) {
+            sprites.dispose();
         }
     }
 }

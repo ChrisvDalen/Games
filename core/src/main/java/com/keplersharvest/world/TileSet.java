@@ -11,16 +11,22 @@ import java.util.Objects;
  */
 public final class TileSet {
 
+    /** Used when a tile does not name one, so a new tile is never invisible. */
+    public static final String DEFAULT_PATTERN = "ground_flat";
+
     private final String name;
     private final int firstGid;
     private final Map<Integer, String> colours;
     private final Map<Integer, String> labels;
+    private final Map<Integer, String> patterns;
 
-    public TileSet(String name, int firstGid, Map<Integer, String> colours, Map<Integer, String> labels) {
+    public TileSet(String name, int firstGid, Map<Integer, String> colours, Map<Integer, String> labels,
+                   Map<Integer, String> patterns) {
         this.name = Objects.requireNonNull(name, "name");
         this.firstGid = firstGid;
         this.colours = Map.copyOf(Objects.requireNonNull(colours, "colours"));
         this.labels = Map.copyOf(Objects.requireNonNull(labels, "labels"));
+        this.patterns = Map.copyOf(Objects.requireNonNull(patterns, "patterns"));
     }
 
     public String name() {
@@ -46,5 +52,14 @@ public final class TileSet {
 
     public String colourForLocal(int localId, String fallback) {
         return colours.getOrDefault(localId, fallback);
+    }
+
+    /** Sprite shape a tile is drawn with, for a global tile id. */
+    public String patternFor(int gid) {
+        return gid <= 0 ? DEFAULT_PATTERN : patternForLocal(gid - firstGid);
+    }
+
+    public String patternForLocal(int localId) {
+        return patterns.getOrDefault(localId, DEFAULT_PATTERN);
     }
 }

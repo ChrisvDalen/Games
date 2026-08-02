@@ -161,18 +161,24 @@ inset item slots, and a warm limited palette. The interface is laid out against 
 exactly half of 720p and a third of 1080p — so at common window sizes every glyph and panel edge
 lands on a whole number of screen pixels and nothing blurs.
 
-All of it is generated rather than drawn in an image editor:
+All of it is original, and none of it is stored as an image file you have to open an editor to
+change:
 
-- **Sprites and tiles** are flat tinted shapes built at start-up, coloured from the content files.
+- **World sprites** are hand-drawn 16x16 pixel art, stored as text in `SpriteShapes.java`. Each row
+  is sixteen palette indices, so shape and colour are separate: one crop shape serves all four
+  crops, tinted from the colour each declares in JSON. Drawn at two world units per sprite pixel,
+  so world art is chunkier than interface text.
 - **The font** is an original 5x8 glyph set defined in `PixelGlyphs.java` and baked into
   `assets/ui/pixel-font.{png,fnt}` by `./gradlew generatePixelFont`.
 - **Panels, buttons and slots** are nine-patches built in code by `UiSkinFactory`.
 
-See [docs/ASSETS.md](docs/ASSETS.md) for how to replace any of it with hand-drawn art.
+Adding a fifth crop still needs no artwork - a colour in `crops.json` gets you a recoloured plant
+through all its growth stages. See [docs/ASSETS.md](docs/ASSETS.md) for how to draw new shapes or
+move to a conventional sprite sheet.
 
 ## Testing
 
-110 tests, all in `core/src/test`, none of which open a window:
+116 tests, all in `core/src/test`, none of which open a window:
 
 ```bash
 ./gradlew test
@@ -181,8 +187,8 @@ See [docs/ASSETS.md](docs/ASSETS.md) for how to replace any of it with hand-draw
 They cover inventory stacking and atomic removal, crop growth and withering, time progression and
 sleeping, repair material requirements, crafting, relationship tiers, quest objectives and
 prerequisites, conditional dialogue, journal and reveal gating, save validation and migration, map
-and portal integrity, character coverage of the pixel font, and the complete first-milestone loop
-end to end. The shipped JSON is loaded by the tests, so a content mistake fails the build.
+and portal integrity, character coverage of the pixel font, sprite-shape integrity, and the
+complete first-milestone loop end to end. The shipped JSON is loaded by the tests, so a content mistake fails the build.
 
 ## Known limitations
 
@@ -193,8 +199,8 @@ end to end. The shipped JSON is loaded by the tests, so a content mistake fails 
 - No controller or mouse-driven movement; keyboard only.
 - The reveal ends the authored story. Repairing every module and finishing every quest is possible,
   but there is no post-slice content after it.
-- Sprites are geometric placeholders. The interface is styled; the world art is not yet.
-- Colonists and the player have no walk animation, only a slight bob.
+- The player has a two-frame walk cycle and colonists a slow idle sway; nothing else is animated.
+- Sprites are 16x16 with no directional variants for colonists, and no seasonal or weather art.
 
 ## Originality
 

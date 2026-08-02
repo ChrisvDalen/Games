@@ -26,10 +26,21 @@ nothing is ever smoothed.
 
 ### The world
 
-Every tile, crop, colonist, module and resource node is a flat tinted rectangle, disc, ring or
-diamond. The shapes are five small textures built in memory at start-up by
-`core/src/main/java/com/keplersharvest/render/Placeholders.java`. The colours come from the content
-files:
+World art is hand-drawn 16x16 pixel art held as text in
+`core/src/main/java/com/keplersharvest/render/SpriteShapes.java`. Each sprite is sixteen rows of
+sixteen characters:
+
+```
+"................",
+".....000000.....",
+"....03333330....",
+"...0344444430...",   0 outline  1 shade  2 base  3 highlight  4 accent  . transparent
+```
+
+Crucially the rows store **palette indices, not colours**. `WorldSprites` turns a shape plus a base
+colour into a texture, deriving the outline, shade and highlight tones from that one colour. That is
+what stops the table exploding: one set of crop shapes serves all four crops, one module shape
+serves all three modules, and the colours still come from the content files:
 
 | What | Where its colour is declared |
 | --- | --- |
@@ -41,8 +52,20 @@ files:
 | Map ambient light | the `ambientColour` map property in each `.tmj` |
 | Interface | the palette constants at the top of `core/src/main/java/com/keplersharvest/ui/UiSkinFactory.java` |
 
-Retinting the whole game is therefore a JSON edit. Nothing in `render/` needs to change to add a
-fifth crop or a fourth module — the renderer asks the content for a colour.
+Retinting the whole game is therefore a JSON edit, and so is adding content: a fifth crop needs a
+colour in `crops.json` and gets a recoloured plant through every growth stage, with no new artwork
+and no change to `render/`.
+
+Two details worth knowing:
+
+- **Terrain tiles name their sprite** with a `pattern` property in `meridian_tileset.tsj`. Patterns
+  with a `_b` twin are alternated across the grid by a position hash, so a large field does not read
+  as a visible lattice.
+- **Resource nodes name their sprite** with a `sprite` property on the map object, defaulting to
+  `node_scrap`.
+
+`WorldSprites` bakes every shape-and-colour pair the loaded content needs into one texture at
+start-up, so drawing the world is a single texture bind.
 
 `assets/maps/meridian_tileset.png` exists **only** so the `.tmj` maps open with visible tiles when
 you edit them in Tiled; the running game does not read it. It is generated from the tileset colours
@@ -58,8 +81,19 @@ Re-run that after changing a tile colour so Tiled keeps matching what the game d
 
 The placeholder system is contained on purpose. Three changes replace it:
 
+### Drawing new sprites
+
+To change or add world art, edit `SpriteShapes.java` directly - it is plain text, sixteen rows of
+sixteen characters, and `SpriteShapesTest` fails the build if a row is the wrong length or uses an
+unknown index. Register any new shape in `WorldSprites.build` so it is baked into the atlas, and the
+renderer can then ask for it by name.
+
+### Moving to a conventional sprite sheet
+
+If you would rather draw in an image editor:
+
 **1. Load a texture atlas.** Add the atlas to `assets/`, load it in
-`KeplersHarvestGame.create()` alongside `Placeholders`, and dispose it in `dispose()`.
+`KeplersHarvestGame.create()` alongside `WorldSprites`, and dispose it in `dispose()`.
 
 **2. Give content a sprite name.** Every definition that has a `colour` field can take a `sprite`
 field beside it — `ItemDefinition`, `CropDefinition`, `ModuleDefinition`, `ColonistDefinition`, and
@@ -67,9 +101,9 @@ the tileset's per-tile properties. Read it in `ContentLoader` the same way `colo
 `colour` as a fallback means a half-finished art pass still renders.
 
 **3. Draw the region instead of the shape.** `WorldRenderer` has one drawing call per kind of thing
-(`drawCrop`, `drawModule`, `drawResourceNode`, `drawColonists`, `drawPlayer`, `drawTile`). Each
-becomes "look up the region, fall back to the placeholder shape". The tint multiply that produces
-day/night stays as it is and works unchanged on real art.
+(`drawCrop`, `drawModule`, `drawResourceNode`, `drawColonists`, `drawPlayer`, `drawTile`), and each
+already asks `WorldSprites` for a region by name. Point that lookup at your atlas instead. The tint
+multiply that produces day/night stays as it is and works unchanged on hand-drawn art.
 
 For animation, the crop renderer already receives the growth stage index and the player renderer
 already receives facing and a movement flag, so those are the hooks a sprite sheet would use.
