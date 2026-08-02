@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+}
+
+allprojects {
+    apply plugin: 'java'
+
+    group = 'com.keplersharvest'
+    version = '0.1.0'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.compilerArgs << '-Xlint:all' << '-Xlint:-serial' << '-Xlint:-this-escape'
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+        testLogging {
+            events 'passed', 'skipped', 'failed'
+            exceptionFormat 'full'
+        }
+    }
+}
+
+/**
+ * Regenerates the placeholder tileset PNG from assets/config/palette.json.
+ * The running game never reads this file - it exists so the .tmj maps can be
+ * opened and edited in Tiled. See README "Replacing placeholder assets".
+ */
+tasks.register('generateTilesetImage', JavaExec) {
+    group = 'assets'
+    description = 'Regenerates assets/maps/meridian_tileset.png from the palette configuration.'
+    classpath = project(':core').sourceSets.main.runtimeClasspath
+    mainClass = 'com.keplersharvest.tools.TilesetImageGenerator'
+    args rootProject.file('assets').absolutePath
+}

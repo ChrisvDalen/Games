@@ -1,0 +1,153 @@
+{
+  "_comment": "Crew logs, the clues they establish, and the conclusion they add up to.",
+
+  "crewLogs": [
+    {
+      "id": "log_intake",
+      "title": "Atmosphere Balance, Entry 114",
+      "author": "Tomas Vey, atmospherics",
+      "stardate": "Year 3, day 219",
+      "order": 1,
+      "grantsEvidence": ["weave_makes_the_air"],
+      "body": [
+        "Ran the column numbers four times because I did not believe them the first three.",
+        "Our recycler is not carrying this station. It is carrying about a third of it.",
+        "The rest is coming up out of the ground - the mycelial layer under the terrace, the thing Odile keeps calling the Weave. It fixes more oxygen in a day than our whole plant does.",
+        "Which means the honest version of our mission report reads: we did not terraform anything. We landed on top of something that was already doing the work, and we plugged our machines into it."
+      ]
+    },
+    {
+      "id": "log_dreams",
+      "title": "Private Log - do not file",
+      "author": "Ada Renn, geologist",
+      "stardate": "Year 3, day 240",
+      "order": 2,
+      "grantsEvidence": ["shared_dreams"],
+      "body": [
+        "Third time this month. I dreamt about a corridor I have never walked, with a hand rail worn down on the left side only.",
+        "I described it at breakfast as a joke. Tomas went white. He has been dreaming the same corridor since the spring.",
+        "So has Odile. So, it turns out, has everyone who sleeps on the terrace side of the hab.",
+        "It is not a haunting. The spore load is highest over there and we breathe it all night. Whatever the Weave is doing, it is doing it with us in the room.",
+        "I keep coming back to the same thought and I do not like it: it is not sending us anything. It is keeping us."
+      ]
+    },
+    {
+      "id": "log_maintenance",
+      "title": "Maintenance Note 07",
+      "author": "Odile Straun, engineer",
+      "stardate": "Year 4, day 12",
+      "order": 3,
+      "grantsEvidence": ["recycler_scrubs_spores"],
+      "body": [
+        "For the record, since nobody wants this in the official log:",
+        "The recycler's filter stack strips spore mass out of the air. That is what it is for. Every hour it runs, it takes a measurable bite out of the surface layer of the Weave.",
+        "We have been running it for four years. The terrace sample density is down sixty-one percent.",
+        "I have been shutting the stack down at night. Yes, it was me. Write me up.",
+        "If we keep this station breathing the way it currently breathes, we will have a very comfortable habitat sitting on a dead planet inside of thirty years."
+      ]
+    },
+    {
+      "id": "log_vote",
+      "title": "Council Record: Motion 3",
+      "author": "Meridian Station council, minuted by A. Renn",
+      "stardate": "Year 4, day 30",
+      "order": 4,
+      "grantsEvidence": ["the_vote"],
+      "body": [
+        "Motion 3, as put: that Meridian Station cease atmospheric processing permanently, disable its plant beyond casual restart, and that the crew relocate to the Glass Hollow for the duration.",
+        "Speaking for: Vey, Renn, Okonkwo, Sarraf, Idris, Bekele.",
+        "Speaking against: Straun, Marchetti, Adeyemi, Lund, Reyes.",
+        "Carried, six to five.",
+        "Recorded objection from Straun: that a decision this size passed by one voice is not a decision, it is a coin landing. That we are choosing for everyone who comes after us and none of them are in the room.",
+        "Objection noted. Motion stands."
+      ]
+    },
+    {
+      "id": "log_last",
+      "title": "Last Entry",
+      "author": "Odile Straun, engineer",
+      "stardate": "Year 4, day 44",
+      "order": 5,
+      "grantsEvidence": ["deliberate_shutdown"],
+      "body": [
+        "They are all down in the Hollow by now. I stayed up to do the part nobody wanted to do.",
+        "The modules are not damaged. I disabled them - properly, in a way that takes work and intent to undo. Cut the comms anchors, pulled the signal board, unbolted the hydroponics head and set it down where it would not get lost. Nothing is smashed. Everything can be put back.",
+        "That was the argument I lost and the compromise I took. If the Weave needs a century, it gets a century. But it does not get a locked door. Whoever lands here next can read this, look at the numbers, and make the call themselves.",
+        "I voted against. I am going down anyway. Not because they convinced me. Because they are going to be down there a very long time and someone should be able to say who they were.",
+        "If you are reading this: the choice is yours now. Please make it slower than we did."
+      ]
+    }
+  ],
+
+  "evidence": [
+    {
+      "id": "weave_makes_the_air",
+      "title": "The planet breathes on its own",
+      "text": "Most of Ilyra's breathable air is fixed by a subsurface fungal network, not by colony machinery. Meridian Station never terraformed anything; it settled on top of a living system and took the credit.",
+      "source": "Atmosphere Balance, Entry 114"
+    },
+    {
+      "id": "shared_dreams",
+      "title": "The crew dreamt the same corridor",
+      "text": "Everyone sleeping on the terrace side reported identical dream imagery. The spore load is heaviest there. Whatever the Weave stores, it stores by being breathed.",
+      "source": "Ada Renn's private log"
+    },
+    {
+      "id": "recycler_scrubs_spores",
+      "title": "The recycler was killing the Weave",
+      "text": "The oxygen recycler's filter stack strips spore mass from the air. Four years of operation cut terrace density by sixty-one percent. Running it is not neutral.",
+      "source": "Maintenance Note 07"
+    },
+    {
+      "id": "the_vote",
+      "title": "Motion 3 carried six to five",
+      "text": "The crew voted to shut the colony down permanently and relocate to the Glass Hollow. It passed by one voice, over a recorded objection that a margin that thin is not a mandate.",
+      "source": "Council Record"
+    },
+    {
+      "id": "deliberate_shutdown",
+      "title": "Nothing here was broken",
+      "text": "Every module was disabled deliberately and reversibly - anchors cut, boards pulled, heads unbolted and set aside. The crew left the colony repairable on purpose, so the next arrival could decide for themselves.",
+      "source": "Odile Straun's last entry"
+    },
+    {
+      "id": "weave_in_the_soil",
+      "title": "It is still in the soil",
+      "text": "Sefa's cultures keep coming back threaded with filament she did not add. The terrace beds are not sterile substrate; they are the top of something much larger and still very much alive.",
+      "source": "Sefa Odim"
+    },
+    {
+      "id": "distress_never_sent",
+      "title": "No distress call was ever made",
+      "text": "The communications array's outbound queue is empty. Eleven people vanished from a working colony and not one of them reached for the radio, because none of them considered it an emergency.",
+      "source": "Communications Array"
+    },
+    {
+      "id": "crew_planned_to_leave",
+      "title": "The last irrigation programme runs for a century",
+      "text": "The hydroponics controller was left loaded with a hundred-year schedule. Whoever wrote it did not expect to be here to see it finish, and did not expect the terrace to be abandoned either.",
+      "source": "Hydroponics Controller"
+    }
+  ],
+
+  "reveal": {
+    "id": "what_meridian_chose",
+    "title": "What Meridian Chose",
+    "requiredLogs": 5,
+    "requiredEvidence": [
+      "weave_makes_the_air",
+      "shared_dreams",
+      "recycler_scrubs_spores",
+      "the_vote",
+      "deliberate_shutdown"
+    ],
+    "body": [
+      "Nothing came out of the dark for the crew of Meridian Station.",
+      "They worked out, slowly and with good instruments, that the air they were selling to the survey as a terraforming success was mostly being made by something already living under their feet - and that their own recycler was steadily killing it. Then they worked out that it had been keeping them, too: their sleep, their dreams, their patterns, held in a network that stores what it breathes.",
+      "So they voted. Six to five, on a motion that would end their colony and their careers and probably their lives, in favour of the thing that was already here. Six walked down into the Glass Hollow. Five did not agree, and five went anyway.",
+      "Odile Straun, who voted against, stayed behind long enough to disable every module in a way that could be undone, and to leave the logs where someone would eventually find them. She did not want to make the choice binding. She wanted it left open.",
+      "Which means it is open now. The recycler you have been repairing does exactly what it did before: it cleans the air, and it scrubs the Weave. Every stage you finish makes Meridian Station a better place to live and Ilyra a worse place to be alive on.",
+      "The crew got one voice of margin and a few weeks to decide. You have the whole record, and no deadline at all. Please make it slower than they did."
+    ]
+  }
+}

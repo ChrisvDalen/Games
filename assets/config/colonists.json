@@ -1,0 +1,54 @@
+{
+  "_comment": "Schedules are checked in order; a later entry for the same phase wins, which is how requiresModule entries override the default.",
+
+  "colonists": [
+    {
+      "id": "sefa",
+      "name": "Sefa Odim",
+      "role": "Botanist, second landing",
+      "personality": "Warm and extremely blunt. Trusts soil samples, distrusts paperwork.",
+      "dialogue": "sefa",
+      "personalQuest": "seedstock",
+      "colour": "d98a5a",
+      "schedule": [
+        { "phase": "MORNING", "map": "terrace", "x": 8, "y": 10 },
+        { "phase": "AFTERNOON", "map": "terrace", "x": 12, "y": 6 },
+        { "phase": "AFTERNOON", "map": "terrace", "x": 15, "y": 9, "requiresModule": "hydroponics_controller" },
+        { "phase": "EVENING", "map": "colony", "x": 12, "y": 13 },
+        { "phase": "NIGHT", "map": "colony", "x": 8, "y": 14 }
+      ]
+    },
+    {
+      "id": "rike",
+      "name": "Rike Halloran",
+      "role": "Salvage engineer",
+      "personality": "Dry, unhurried, sentimental about hardware and nothing else.",
+      "dialogue": "rike",
+      "personalQuest": "parts_ledger",
+      "colour": "6f9fd8",
+      "schedule": [
+        { "phase": "MORNING", "map": "colony", "x": 19, "y": 7 },
+        { "phase": "AFTERNOON", "map": "colony", "x": 16, "y": 12 },
+        { "phase": "AFTERNOON", "map": "colony", "x": 18, "y": 8, "requiresModule": "comms_array" },
+        { "phase": "EVENING", "map": "colony", "x": 20, "y": 10 },
+        { "phase": "NIGHT", "map": "colony", "x": 9, "y": 14 }
+      ]
+    },
+    {
+      "id": "nnenna",
+      "name": "Nnenna Achar",
+      "role": "Medic and atmospheric chemist",
+      "personality": "Quiet, precise, and increasingly unwilling to call her own data a coincidence.",
+      "dialogue": "nnenna",
+      "personalQuest": "sleep_study",
+      "colour": "8ec98a",
+      "schedule": [
+        { "phase": "MORNING", "map": "colony", "x": 14, "y": 13 },
+        { "phase": "MORNING", "map": "colony", "x": 13, "y": 8, "requiresModule": "oxygen_recycler" },
+        { "phase": "AFTERNOON", "map": "biome", "x": 13, "y": 11 },
+        { "phase": "EVENING", "map": "terrace", "x": 16, "y": 10 },
+        { "phase": "NIGHT", "map": "colony", "x": 5, "y": 14 }
+      ]
+    }
+  ]
+}

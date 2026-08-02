@@ -1,0 +1,174 @@
+{
+  "_comment": "Item catalogue. 'colour' is the placeholder render colour (RRGGBB) - see docs/ASSETS.md.",
+
+  "items": [
+    {
+      "id": "soil_blade",
+      "name": "Soil Blade",
+      "description": "A short mattock rated for frozen regolith. Breaks ground for planting.",
+      "category": "TOOL",
+      "tool": "TILLER",
+      "colour": "b4763c"
+    },
+    {
+      "id": "mist_canister",
+      "name": "Mist Canister",
+      "description": "Pressurised meltwater. One squeeze soaks a planted tile for the day.",
+      "category": "TOOL",
+      "tool": "IRRIGATOR",
+      "colour": "4fa9d8"
+    },
+    {
+      "id": "cutting_torch",
+      "name": "Cutting Torch",
+      "description": "Cuts salvage free and cracks mineral crusts.",
+      "category": "TOOL",
+      "tool": "CUTTER",
+      "colour": "e0703a"
+    },
+    {
+      "id": "field_scanner",
+      "name": "Field Scanner",
+      "description": "Reads module diagnostics and wakes dormant data slates.",
+      "category": "TOOL",
+      "tool": "SCANNER",
+      "colour": "7ad4a8"
+    },
+
+    {
+      "id": "scrap_alloy",
+      "name": "Scrap Alloy",
+      "description": "Hull plate offcuts. The colony is built out of what the colony broke.",
+      "category": "RESOURCE",
+      "maxStack": 99,
+      "colour": "9aa4b0"
+    },
+    {
+      "id": "silica_shard",
+      "name": "Silica Shard",
+      "description": "Wind-polished glass from the hollows. Sharp, clear, oddly warm.",
+      "category": "RESOURCE",
+      "maxStack": 99,
+      "colour": "cfe6f2"
+    },
+    {
+      "id": "resin_fibre",
+      "name": "Resin Fibre",
+      "description": "Tough strands pulled from native stalks. Seals, binds, insulates.",
+      "category": "RESOURCE",
+      "maxStack": 99,
+      "colour": "b8a35a"
+    },
+    {
+      "id": "lumen_shard",
+      "name": "Lumen Shard",
+      "description": "A crystal that holds a faint charge. It dims when the air is dry.",
+      "category": "RESOURCE",
+      "maxStack": 99,
+      "colour": "8fd3ff"
+    },
+    {
+      "id": "salvaged_cell",
+      "name": "Salvaged Cell",
+      "description": "A power cell someone pulled and stacked neatly before leaving.",
+      "category": "RESOURCE",
+      "maxStack": 30,
+      "colour": "d8c34a"
+    },
+
+    {
+      "id": "filter_mesh",
+      "name": "Filter Mesh",
+      "description": "A woven scrubber panel. Catches spores the recycler cannot.",
+      "category": "COMPONENT",
+      "maxStack": 20,
+      "colour": "8ec9a0"
+    },
+    {
+      "id": "sealing_gel",
+      "name": "Sealing Gel",
+      "description": "Slow-setting compound for pressure seams.",
+      "category": "COMPONENT",
+      "maxStack": 20,
+      "colour": "c9b3e0"
+    },
+    {
+      "id": "circuit_lattice",
+      "name": "Circuit Lattice",
+      "description": "A printed lattice board. Fiddly, fragile, indispensable.",
+      "category": "COMPONENT",
+      "maxStack": 20,
+      "colour": "6fb1a0"
+    },
+
+    {
+      "id": "lumen_pod_seed",
+      "name": "Lumen Pod Seed",
+      "description": "Plant in tilled soil. Sprouts fast and glows faintly at night.",
+      "category": "SEED",
+      "maxStack": 60,
+      "plants": "lumen_pod",
+      "colour": "d8e07a"
+    },
+    {
+      "id": "glassroot_seed",
+      "name": "Glassroot Seed",
+      "description": "A heavy seed with a mineral shell. Slow, thirsty, worth it.",
+      "category": "SEED",
+      "maxStack": 60,
+      "plants": "glassroot",
+      "colour": "a8d0d8"
+    },
+    {
+      "id": "cinder_moss_spore",
+      "name": "Cinder Moss Spore",
+      "description": "Thrives on neglect. Watering it does nothing at all.",
+      "category": "SEED",
+      "maxStack": 60,
+      "plants": "cinder_moss",
+      "colour": "d09060"
+    },
+    {
+      "id": "orbit_berry_seed",
+      "name": "Orbit Berry Seed",
+      "description": "Slow to establish, but the vine keeps bearing once it takes.",
+      "category": "SEED",
+      "maxStack": 60,
+      "plants": "orbit_berry",
+      "colour": "b07ad0"
+    },
+
+    {
+      "id": "lumen_pod",
+      "name": "Lumen Pod",
+      "description": "A soft-shelled pod that keeps a day's worth of light in it.",
+      "category": "CROP",
+      "maxStack": 99,
+      "colour": "eff08a"
+    },
+    {
+      "id": "glassroot",
+      "name": "Glassroot",
+      "description": "A translucent tuber. Snaps cleanly, tastes of cold metal.",
+      "category": "CROP",
+      "maxStack": 99,
+      "colour": "b6e2ea"
+    },
+    {
+      "id": "cinder_moss",
+      "name": "Cinder Moss",
+      "description": "Dry, rust-red matting. Burns slow and clean.",
+      "category": "CROP",
+      "maxStack": 99,
+      "colour": "c4562f"
+    },
+    {
+      "id": "orbit_berry",
+      "name": "Orbit Berry",
+      "description": "Grows in slow rings around the stem, like a tiny system.",
+      "category": "CROP",
+      "maxStack": 99,
+      "colour": "9b5fd0"
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "speaker": "sefa",
+  "_comment": "Entry nodes are tried in order; the first whose 'when' passes opens the conversation.",
+
+  "nodes": [
+    {
+      "id": "first_meeting",
+      "entry": true,
+      "when": { "flagNot": "met_sefa" },
+      "effects": [
+        { "type": "setFlag", "flag": "met_sefa" },
+        { "type": "relationship", "amount": 4 }
+      ],
+      "lines": [
+        "She does not look up from the bed she is turning over.",
+        "\"You are three years late and the wrong shape for a supply drone. Which are you?\"",
+        "\"Sefa Odim. Botanist. I came out on the second landing, found the place empty, and stayed because somebody had to keep the terrace from going to glass.\""
+      ],
+      "choices": [
+        { "text": "Where is everyone?", "next": "where_is_everyone" },
+        { "text": "You have been here alone?", "next": "alone", "effects": [{ "type": "relationship", "amount": 3 }] },
+        { "text": "What needs doing?", "next": "what_needs_doing" }
+      ]
+    },
+    {
+      "id": "where_is_everyone",
+      "lines": [
+        "\"That is the question, is it not.\"",
+        "\"Eleven people. No bodies, no wreckage, no distress call. Beds made. Tools racked. The recycler switched off from the inside.\"",
+        "\"Rike thinks it was a fault cascade. Nnenna does not say what she thinks, which is its own answer.\"",
+        "\"Me, I keep finding their handwriting in the seed trays and I would like to know what they were so sure about.\""
+      ],
+      "next": "what_needs_doing"
+    },
+    {
+      "id": "alone",
+      "lines": [
+        "\"Rike came out a year after me. Nnenna last spring. Three of us rattling around a station built for eleven.\"",
+        "\"It is not lonely exactly. It is more that the place feels borrowed.\""
+      ],
+      "next": "what_needs_doing"
+    },
+    {
+      "id": "what_needs_doing",
+      "lines": [
+        "\"Everything. Start with the soil - it is the only thing here that pays you back on a schedule.\"",
+        "\"Break a bed with the blade, put a lumen pod in it, water it every single day. Three days and you will have light in your hand.\"",
+        "\"Then go and see Rike about the recycler. I would rather not spend another winter tasting the air.\""
+      ]
+    },
+
+    {
+      "id": "offer_seedstock",
+      "entry": true,
+      "when": { "questAvailable": "seedstock", "flagNot": "seedstock_offered" },
+      "lines": [
+        "\"Since you are here and apparently useful.\"",
+        "\"My glassroot line keeps failing in the fourth generation. Every batch comes up threaded with filament I did not put there, and then it collapses.\"",
+        "\"I need three clean tubers to start again from. Grown, not scavenged.\""
+      ],
+      "choices": [
+        {
+          "text": "I will grow them for you.",
+          "next": "seedstock_accepted",
+          "effects": [
+            { "type": "startQuest", "quest": "seedstock" },
+            { "type": "setFlag", "flag": "seedstock_offered" },
+            { "type": "relationship", "amount": 5 }
+          ]
+        },
+        { "text": "Filament? From where?", "next": "seedstock_filament" },
+        { "text": "Not right now.", "next": "seedstock_declined" }
+      ]
+    },
+    {
+      "id": "seedstock_filament",
+      "lines": [
+        "\"That is what I would like to know. Sterile substrate, sealed trays, filtered water.\"",
+        "\"And still, every time, something already living gets there first.\""
+      ],
+      "choices": [
+        {
+          "text": "I will grow you three clean ones.",
+          "next": "seedstock_accepted",
+          "effects": [
+            { "type": "startQuest", "quest": "seedstock" },
+            { "type": "setFlag", "flag": "seedstock_offered" },
+            { "type": "relationship", "amount": 5 }
+          ]
+        },
+        { "text": "Later.", "next": "seedstock_declined" }
+      ]
+    },
+    {
+      "id": "seedstock_accepted",
+      "lines": [
+        "\"Glassroot. Five days, water every one of them, and it will die on you if you forget twice.\"",
+        "\"Three tubers. I will know if you dug them out of the hollow instead.\""
+      ]
+    },
+    {
+      "id": "seedstock_declined",
+      "lines": ["\"Suit yourself. The trays are not going anywhere.\""]
+    },
+    {
+      "id": "seedstock_active",
+      "entry": true,
+      "when": { "questActive": "seedstock" },
+      "lines": [
+        "\"Three glassroot. Clean ones. Water them like you mean it.\""
+      ]
+    },
+
+    {
+      "id": "recycler_thanks",
+      "entry": true,
+      "when": { "moduleOnline": "oxygen_recycler", "flagNot": "sefa_recycler_talk" },
+      "effects": [
+        { "type": "setFlag", "flag": "sefa_recycler_talk" },
+        { "type": "relationship", "amount": 6 }
+      ],
+      "lines": [
+        "She straightens up when she sees you, which she does not usually bother with.",
+        "\"You got the recycler up. I could taste the difference before I heard the fan.\"",
+        "\"Odd thing, though. The terrace beds went quiet the same afternoon. Less give in the soil. I am probably imagining it.\"",
+        "\"I am probably imagining it,\" she says again, to herself."
+      ]
+    },
+
+    {
+      "id": "confidant",
+      "entry": true,
+      "when": { "minRelationship": 75, "flagNot": "sefa_confided" },
+      "effects": [
+        { "type": "setFlag", "flag": "sefa_confided" },
+        { "type": "evidence", "evidence": "weave_in_the_soil" }
+      ],
+      "lines": [
+        "\"I am going to tell you something I have not written down.\"",
+        "\"The filament in my trays is not contamination. I have sequenced it four times. It is the same organism as the mat under the terrace, and it is everywhere - the beds, the drains, the dust in the hab filters.\"",
+        "\"It is not growing into my cultures. It is already there, and my cultures are growing into it.\"",
+        "\"Whatever the old crew were doing out here, they were not farming on top of a dead rock. They were farming on top of something.\""
+      ]
+    },
+
+    {
+      "id": "after_reveal",
+      "entry": true,
+      "when": { "minLogs": 5 },
+      "lines": [
+        "\"You found all of it, then.\"",
+        "\"Six to five. They ended a colony on six to five.\"",
+        "\"I have been turning that soil for four years and I never once asked it what it wanted. Ask me again in a week what I think we should do. I do not have it yet.\""
+      ]
+    },
+
+    {
+      "id": "default",
+      "entry": true,
+      "lines": [
+        "\"Water first, questions after.\"",
+        "\"The blade breaks the bed, the canister wets it, and nothing at all happens unless you come back tomorrow and do it again.\""
+      ]
+    }
+  ]
+}

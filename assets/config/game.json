@@ -1,0 +1,34 @@
+{
+  "_comment": "Global tuning. Every value here is read at start-up; nothing below is hard-coded in Java.",
+
+  "realSecondsPerGameMinute": 0.55,
+  "wakeMinute": 360,
+  "collapseMinute": 120,
+
+  "baseMaxEnergy": 100,
+  "collapseEnergyPenalty": 35,
+  "nightEnergyDrainPerHour": 3,
+  "hazardEnergyDrainPerHour": 7,
+
+  "inventorySize": 24,
+  "toolbarSize": 8,
+  "playerTilesPerSecond": 4.4,
+  "dailyGreetingPoints": 6,
+
+  "energyCosts": {
+    "till": 5,
+    "plant": 1,
+    "water": 2,
+    "gather": 4,
+    "repair": 9,
+    "craft": 3
+  },
+
+  "startingItems": [
+    { "item": "soil_blade", "count": 1 },
+    { "item": "mist_canister", "count": 1 },
+    { "item": "cutting_torch", "count": 1 },
+    { "item": "field_scanner", "count": 1 },
+    { "item": "lumen_pod_seed", "count": 4 }
+  ]
+}

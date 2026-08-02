@@ -1,0 +1,16 @@
+{
+  "_comment": "Map index. Add a .tmj file and one entry here to add an area - no engine change needed.",
+
+  "tileset": "maps/meridian_tileset.tsj",
+
+  "maps": [
+    { "id": "colony", "file": "maps/colony.tmj" },
+    { "id": "terrace", "file": "maps/terrace.tmj" },
+    { "id": "biome", "file": "maps/biome.tmj" }
+  ],
+
+  "start": {
+    "map": "colony",
+    "spawn": "landing_pad"
+  }
+}

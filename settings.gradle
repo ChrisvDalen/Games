@@ -1,0 +1,4 @@
+rootProject.name = 'keplers-harvest'
+
+include 'core'
+include 'lwjgl3'
