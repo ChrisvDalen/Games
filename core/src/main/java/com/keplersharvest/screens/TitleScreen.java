@@ -31,26 +31,40 @@ public final class TitleScreen extends ScreenAdapter {
         root.setFillParent(true);
         root.center();
 
-        root.add(new Label("KEPLER'S HARVEST", game.skin(), "title")).padBottom(6f).row();
+        root.add(new Label("KEPLER'S HARVEST", game.skin(), "title")).padBottom(3f).row();
         root.add(new Label("Meridian Station, Ilyra   -   colony status: abandoned",
-                game.skin(), "muted")).padBottom(28f).row();
+                game.skin(), "cream")).padBottom(14f).row();
 
         if (game.startupError() != null) {
+            Table panel = framedPanel();
             Label error = new Label("Content failed to load:\n" + game.startupError(), game.skin(), "warn");
             error.setWrap(true);
-            root.add(error).width(620f).padBottom(20f).row();
-            root.add(quitButton()).width(280f).row();
+            panel.add(error).width(400f).padBottom(8f).row();
+            panel.add(quitButton()).width(180f).row();
+            root.add(panel).row();
         } else {
-            root.add(newGameButton()).width(280f).padBottom(10f).row();
-            root.add(continueButton()).width(280f).padBottom(10f).row();
-            root.add(quitButton()).width(280f).padBottom(18f).row();
-            root.add(statusLabel).width(620f).row();
-            root.add(new Label("WASD or arrows move   -   E interact   -   F use tool   -   "
-                    + "1-8 toolbar   -   I pack   -   Q tasks   -   J journal   -   Esc pause",
-                    game.skin(), "muted")).padTop(26f).row();
+            Table menu = framedPanel();
+            menu.add(newGameButton()).width(190f).padBottom(4f).row();
+            menu.add(continueButton()).width(190f).padBottom(4f).row();
+            menu.add(quitButton()).width(190f).row();
+            root.add(menu).padBottom(8f).row();
+
+            root.add(statusLabel).width(420f).row();
+            root.add(new Label("WASD move   E interact   F tool   1-8 toolbar", game.skin(), "cream"))
+                    .padTop(12f).row();
+            root.add(new Label("I pack   Q tasks   J journal   Esc pause", game.skin(), "cream"))
+                    .padTop(2f).row();
         }
 
         stage.addActor(root);
+    }
+
+    /** Wooden frame shared by the menu and the content-error panel. */
+    private Table framedPanel() {
+        Table panel = new Table(game.skin());
+        panel.setBackground(game.skin().getDrawable("panel"));
+        panel.pad(9f);
+        return panel;
     }
 
     private TextButton newGameButton() {
@@ -119,7 +133,7 @@ public final class TitleScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.04f, 0.06f, 0.09f, 1f);
+        Gdx.gl.glClearColor(0.114f, 0.086f, 0.063f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();

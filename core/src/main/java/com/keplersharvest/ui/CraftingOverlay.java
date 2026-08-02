@@ -22,7 +22,7 @@ public final class CraftingOverlay extends Overlay {
     private List<RecipeDefinition> recipes = List.of();
 
     public CraftingOverlay(Skin skin, GameSession session) {
-        super(skin, "Fabrication Bench", 740f, 460f);
+        super(skin, "Fabrication Bench", 570f, 300f);
         this.session = session;
         setFooter("Press a number to fabricate   -   Esc to close");
     }
@@ -43,7 +43,7 @@ public final class CraftingOverlay extends Overlay {
             list.add(new Label("This bench has no patterns loaded.", skin, "muted")).left().row();
         }
         for (int i = 0; i < recipes.size(); i++) {
-            list.add(buildRecipe(i, recipes.get(i))).left().fillX().padBottom(6f).row();
+            list.add(buildRecipe(i, recipes.get(i))).left().fillX().padBottom(4f).row();
         }
 
         ScrollPane scroll = new ScrollPane(list, skin);
@@ -55,7 +55,7 @@ public final class CraftingOverlay extends Overlay {
     private Table buildRecipe(int index, RecipeDefinition recipe) {
         Table row = new Table(skin);
         row.setBackground(skin.getDrawable("panel-soft"));
-        row.pad(9f);
+        row.pad(6f);
 
         boolean unlocked = session.crafting().unlocked(recipe);
         Map<String, Integer> missing = session.inventory().missingFrom(recipe.inputs());
@@ -64,16 +64,16 @@ public final class CraftingOverlay extends Overlay {
         String label = (index < 9 ? (index + 1) + ". " : "   ") + recipe.name()
                 + "  ->  " + recipe.outputCount() + " x " + session.content().itemName(recipe.outputItemId());
         row.add(new Label(label, skin, canMake ? "accent" : "default")).left().row();
-        row.add(new Label(describeInputs(recipe), skin, "muted")).left().padTop(2f).row();
+        row.add(new Label(describeInputs(recipe), skin, "muted")).left().padTop(1f).row();
 
         if (!unlocked) {
             String moduleName = recipe.requiresModule()
                     .flatMap(session.content()::module)
                     .map(module -> module.name())
                     .orElse("a module");
-            row.add(new Label("Locked until " + moduleName + " is online.", skin, "warn")).left().padTop(3f).row();
+            row.add(new Label("Locked until " + moduleName + " is online.", skin, "warn")).left().padTop(2f).row();
         } else if (!missing.isEmpty()) {
-            row.add(new Label("Missing " + session.describeItems(missing), skin, "warn")).left().padTop(3f).row();
+            row.add(new Label("Missing " + session.describeItems(missing), skin, "warn")).left().padTop(2f).row();
         } else {
             TextButton make = new TextButton("Fabricate", skin);
             make.addListener(new ChangeListener() {
@@ -83,7 +83,7 @@ public final class CraftingOverlay extends Overlay {
                     rebuild();
                 }
             });
-            row.add(make).left().padTop(5f).row();
+            row.add(make).left().padTop(3f).row();
         }
         return row;
     }

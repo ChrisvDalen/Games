@@ -26,7 +26,7 @@ public final class DialogueOverlay extends Overlay {
     };
 
     public DialogueOverlay(Skin skin) {
-        super(skin, "", 780f, 300f);
+        super(skin, "", 590f, 150f);
     }
 
     public void begin(String speakerName, DialogueRunner runner, Runnable onClose) {
@@ -47,7 +47,7 @@ public final class DialogueOverlay extends Overlay {
 
         Label line = new Label(runner.currentLine(), skin, "default");
         line.setWrap(true);
-        content().add(line).left().top().width(700f).expandY().row();
+        content().add(line).left().top().width(548f).expandY().row();
 
         List<DialogueChoice> choices = runner.choices();
         if (choices.isEmpty()) {
@@ -66,7 +66,7 @@ public final class DialogueOverlay extends Overlay {
                     choose(index);
                 }
             });
-            replies.add(button).left().fillX().padTop(4f).row();
+            replies.add(button).left().fillX().padTop(2f).row();
         }
         content().add(replies).left().fillX();
     }

@@ -136,8 +136,13 @@ files. A new crop or module is visible without touching the renderer.
 `WorldRenderer` reads game state and writes none of it. Day/night is a tint factor computed from the
 clock and multiplied through every draw.
 
-`UiSkinFactory` builds the Scene2D skin in code from libGDX's built-in bitmap font and flat tinted
-rectangles. No skin files, no font files, no third-party assets.
+`UiSkinFactory` builds the Scene2D skin in code: nine-patch panels drawn as concentric bevelled
+rings into a Pixmap, plus a bitmap font baked from the original glyph table in `PixelGlyphs`. The
+whole interface style - palette, frames, typography - is changed from that one file.
+
+The interface and the world share a 640x360 canvas and nearest-neighbour filtering. That is what
+keeps the pixel look honest: at 720p and 1080p a source pixel is exactly two or three screen pixels,
+so glyph edges and panel frames never land between them.
 
 ## What was deliberately not built
 

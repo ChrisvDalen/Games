@@ -31,15 +31,15 @@ public abstract class Overlay {
 
         Table panel = new Table(skin);
         panel.setBackground(skin.getDrawable("panel"));
-        panel.pad(20f);
+        panel.pad(10f);
 
         titleLabel = new Label(title, skin, "heading");
         panel.add(titleLabel).left().expandX().fillX().row();
-        panel.add(new Image(skin.getDrawable("divider"))).height(2f).fillX().padTop(8f).padBottom(12f).row();
+        panel.add(new Image(skin.getDrawable("divider"))).height(1f).fillX().padTop(4f).padBottom(6f).row();
         panel.add(content).grow().top().left().row();
 
         footerLabel = new Label("", skin, "muted");
-        panel.add(footerLabel).left().padTop(12f);
+        panel.add(footerLabel).left().padTop(6f);
 
         root.add(panel).width(width).height(height);
     }

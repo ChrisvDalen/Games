@@ -32,6 +32,8 @@ import java.util.Optional;
 public final class WorldRenderer implements Disposable {
 
     private static final int TILE = Placeholders.TILE;
+    /** How dark full night gets. High enough to stay readable, low enough to feel like night. */
+    private static final float NIGHT_LIGHT = 0.55f;
 
     private final Placeholders art;
     private final SpriteBatch batch = new SpriteBatch();
@@ -47,7 +49,8 @@ public final class WorldRenderer implements Disposable {
     public WorldRenderer(Placeholders art, boolean ownsArt) {
         this.art = art;
         this.ownsArt = ownsArt;
-        this.viewport = new ExtendViewport(20 * TILE, 12 * TILE, camera);
+        // Matches the interface canvas so world pixels and font pixels share one grid.
+        this.viewport = new ExtendViewport(20 * TILE, 11.25f * TILE, camera);
     }
 
     public Viewport viewport() {
@@ -98,17 +101,18 @@ public final class WorldRenderer implements Disposable {
     /** Darkens everything towards the map's ambient colour as the day turns over. */
     private Color ambientTint(TimeOfDay now, String ambientColour) {
         float minute = now.minuteOfDay();
+        // Dawn is well under way by the 06:00 wake-up, so the player never starts the day in murk.
         float daylight;
-        if (minute < 300) {
-            daylight = 0.42f;
-        } else if (minute < 480) {
-            daylight = MathUtils.lerp(0.42f, 1f, (minute - 300f) / 180f);
+        if (minute < 240) {
+            daylight = NIGHT_LIGHT;
+        } else if (minute < 400) {
+            daylight = MathUtils.lerp(NIGHT_LIGHT, 1f, (minute - 240f) / 160f);
         } else if (minute < 1020) {
             daylight = 1f;
         } else if (minute < 1260) {
-            daylight = MathUtils.lerp(1f, 0.45f, (minute - 1020f) / 240f);
+            daylight = MathUtils.lerp(1f, NIGHT_LIGHT, (minute - 1020f) / 240f);
         } else {
-            daylight = 0.42f;
+            daylight = NIGHT_LIGHT;
         }
         Color night = art.colour(ambientColour);
         tint.set(
@@ -155,7 +159,7 @@ public final class WorldRenderer implements Disposable {
             float x = plot.position().x() * TILE;
             float y = plot.position().y() * TILE;
             if (plot.soil() == SoilState.TILLED) {
-                Color soil = plot.watered() ? art.colour("4a3524") : art.colour("6b4f3a");
+                Color soil = plot.watered() ? art.colour("5c3a22") : art.colour("7a5236");
                 batch.setColor(soil.r * ambient.r, soil.g * ambient.g, soil.b * ambient.b, 1f);
                 batch.draw(art.pixel(), x + 2, y + 2, TILE - 4, TILE - 4);
                 batch.setColor(0f, 0f, 0f, 0.25f);
