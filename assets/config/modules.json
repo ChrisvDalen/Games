@@ -1,0 +1,77 @@
+{
+  "_comment": "Repairable colony modules. Stages are worked in order; each consumes its own materials.",
+
+  "modules": [
+    {
+      "id": "oxygen_recycler",
+      "name": "Oxygen Recycler",
+      "description": "Scrubs and re-oxygenates station air. Someone shut it down from the inside.",
+      "benefitKind": "MAX_ENERGY",
+      "benefitAmount": 25,
+      "benefitText": "Clean air. You can work longer before you flag.",
+      "grantsEvidence": ["recycler_scrubs_spores"],
+      "colour": "5f9ea0",
+      "stages": [
+        {
+          "name": "Clear the choked intake",
+          "description": "The intake is packed solid with dried spore matting.",
+          "materials": { "scrap_alloy": 4, "resin_fibre": 2 }
+        },
+        {
+          "name": "Reseat the filter stack",
+          "description": "The stack needs new glass and something living to prime it.",
+          "materials": { "silica_shard": 3, "scrap_alloy": 2, "lumen_pod": 1 }
+        }
+      ]
+    },
+    {
+      "id": "comms_array",
+      "name": "Communications Array",
+      "description": "The long-range dish. Its logs end mid-sentence, and nothing was ever transmitted.",
+      "benefitKind": "SURVEY",
+      "benefitAmount": 1,
+      "benefitText": "The survey overlay marks landmarks you have not walked yet.",
+      "grantsEvidence": ["distress_never_sent"],
+      "colour": "7f8fbf",
+      "stages": [
+        {
+          "name": "Re-anchor the mast",
+          "description": "Three of the four guy anchors were cut, not broken.",
+          "materials": { "scrap_alloy": 6 }
+        },
+        {
+          "name": "Rebuild the signal board",
+          "description": "The board was removed carefully and never put back.",
+          "materials": { "circuit_lattice": 1, "salvaged_cell": 2 }
+        },
+        {
+          "name": "Align and power up",
+          "description": "One clean alignment pass and the dish will talk again.",
+          "materials": { "lumen_shard": 3, "sealing_gel": 1 }
+        }
+      ]
+    },
+    {
+      "id": "hydroponics_controller",
+      "name": "Hydroponics Controller",
+      "description": "Runs the terrace irrigation. Its last programme was written to run for a hundred years.",
+      "benefitKind": "WATER_RETENTION",
+      "benefitAmount": 1,
+      "benefitText": "The terrace holds moisture. Watered soil stays wet through the next day.",
+      "grantsEvidence": ["crew_planned_to_leave"],
+      "colour": "6fbf7f",
+      "stages": [
+        {
+          "name": "Flush the feed lines",
+          "description": "Mineral scale, a season of it.",
+          "materials": { "resin_fibre": 4, "sealing_gel": 1 }
+        },
+        {
+          "name": "Replace the control head",
+          "description": "The head was unbolted and set down neatly beside the housing.",
+          "materials": { "circuit_lattice": 1, "glassroot": 2, "scrap_alloy": 3 }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "speaker": "nnenna",
+
+  "nodes": [
+    {
+      "id": "first_meeting",
+      "entry": true,
+      "when": { "flagNot": "met_nnenna" },
+      "effects": [
+        { "type": "setFlag", "flag": "met_nnenna" },
+        { "type": "relationship", "amount": 4 }
+      ],
+      "lines": [
+        "\"Nnenna Achar. Medic, and I run the air chemistry because nobody else wants to.\"",
+        "\"Before you ask: yes, I know the station reads as habitable. I would still like you to sleep on the apron side rather than the terrace side for your first few nights.\""
+      ],
+      "choices": [
+        { "text": "Why the apron side?", "next": "why_apron" },
+        { "text": "Understood.", "next": "understood", "effects": [{ "type": "relationship", "amount": 3 }] }
+      ]
+    },
+    {
+      "id": "why_apron",
+      "lines": [
+        "\"Spore density. It is four times higher over the terrace beds and it peaks at night.\"",
+        "\"It is not toxic. Every panel I have run says it is inert and harmless.\"",
+        "A pause. \"I am collecting reports anyway.\""
+      ],
+      "next": "understood"
+    },
+    {
+      "id": "understood",
+      "lines": [
+        "\"Also: the hollow at night is genuinely unpleasant. The bloom comes up and it will take the strength out of you faster than the walk back.\"",
+        "\"Go in daylight. That is medical advice, not a suggestion.\""
+      ]
+    },
+
+    {
+      "id": "offer_sleep_study",
+      "entry": true,
+      "when": { "questAvailable": "sleep_study", "flagNot": "sleep_study_offered" },
+      "lines": [
+        "\"I want to ask you something and I want you to not make a joke about it.\"",
+        "\"Since you arrived - have you dreamt about a corridor? Grey, curved, hand rail worn smooth on the left side only.\""
+      ],
+      "choices": [
+        {
+          "text": "Yes. Twice.",
+          "next": "study_yes",
+          "effects": [
+            { "type": "startQuest", "quest": "sleep_study" },
+            { "type": "setFlag", "flag": "sleep_study_offered" },
+            { "type": "relationship", "amount": 8 }
+          ]
+        },
+        {
+          "text": "No. Should I have?",
+          "next": "study_no",
+          "effects": [
+            { "type": "startQuest", "quest": "sleep_study" },
+            { "type": "setFlag", "flag": "sleep_study_offered" }
+          ]
+        },
+        { "text": "That is a strange question.", "next": "study_deflect" }
+      ]
+    },
+    {
+      "id": "study_yes",
+      "lines": [
+        "She writes it down without changing expression, which takes visible effort.",
+        "\"Three for three. Sefa, Rike, you. I have it as well.\"",
+        "\"None of us walked that corridor. It is not in this station. I checked the schematics twice.\"",
+        "\"If the old crew left anything personal - a private log, something not filed - I would like to read it before I write any of this up.\""
+      ]
+    },
+    {
+      "id": "study_no",
+      "lines": [
+        "\"Then you have been here four days and you sleep on the apron side. Good. Keep doing that, and tell me the moment it changes.\"",
+        "\"If you find anything the old crew wrote that was not meant for the record, bring it to me first.\""
+      ]
+    },
+    {
+      "id": "study_deflect",
+      "lines": [
+        "\"It is. I am aware.\"",
+        "\"Ask me again when you have slept here a week.\""
+      ]
+    },
+    {
+      "id": "study_active",
+      "entry": true,
+      "when": { "questActive": "sleep_study" },
+      "lines": [
+        "\"Anything personal the old crew left. Not the maintenance notes - the ones they wrote for themselves.\""
+      ]
+    },
+
+    {
+      "id": "recycler_online",
+      "entry": true,
+      "when": { "moduleOnline": "oxygen_recycler", "flagNot": "nnenna_recycler_talk" },
+      "effects": [
+        { "type": "setFlag", "flag": "nnenna_recycler_talk" },
+        { "type": "relationship", "amount": 6 }
+      ],
+      "lines": [
+        "\"Partial pressures are up eleven percent since you brought the stack online. Thank you. Genuinely.\"",
+        "\"Spore density over the terrace is down thirty-one percent in the same window.\"",
+        "\"I am going to write both of those numbers in the same column and look at them for a while.\""
+      ]
+    },
+
+    {
+      "id": "confidant",
+      "entry": true,
+      "when": { "minRelationship": 75, "flagNot": "nnenna_confided" },
+      "effects": [
+        { "type": "setFlag", "flag": "nnenna_confided" },
+        { "type": "evidence", "evidence": "shared_dreams" }
+      ],
+      "lines": [
+        "\"I will say the unscientific version once and then never again.\"",
+        "\"Four people, no shared reference, identical dream architecture. The variable that tracks is spore exposure. Not stress, not shift pattern, not diet. Exposure.\"",
+        "\"Which means the most parsimonious explanation is that something in the air is carrying content, and that we are reading it in our sleep.\"",
+        "\"I have no mechanism. I have a correlation I cannot break and a hand rail I have never touched, worn down on the left.\""
+      ]
+    },
+
+    {
+      "id": "after_reveal",
+      "entry": true,
+      "when": { "minLogs": 5 },
+      "lines": [
+        "\"Renn wrote that it keeps what it breathes.\"",
+        "\"Eleven people went down there on purpose so that it would keep them.\"",
+        "\"I have been telling myself for a year that the dreams were a correlation. They are not a correlation. They are a recording, and we have been standing inside the playback.\""
+      ]
+    },
+
+    {
+      "id": "default",
+      "entry": true,
+      "lines": [
+        "\"Sleep when the light goes. Whatever you think you can push through, the air here disagrees.\"",
+        "\"And not in the hollow after dark.\""
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_comment": "All recipes belong to a station id placed by a map's CRAFTING_STATION object.",
+
+  "recipes": [
+    {
+      "id": "filter_mesh",
+      "name": "Filter Mesh",
+      "description": "Woven scrubber panel for the recycler stack.",
+      "station": "fabricator",
+      "inputs": { "resin_fibre": 3, "silica_shard": 2 },
+      "outputItem": "filter_mesh",
+      "outputCount": 1
+    },
+    {
+      "id": "sealing_gel",
+      "name": "Sealing Gel",
+      "description": "Pressure-seam compound. Smells like burnt sugar.",
+      "station": "fabricator",
+      "inputs": { "resin_fibre": 2, "cinder_moss": 1 },
+      "outputItem": "sealing_gel",
+      "outputCount": 2
+    },
+    {
+      "id": "circuit_lattice",
+      "name": "Circuit Lattice",
+      "description": "Printed board for the communications stack.",
+      "station": "fabricator",
+      "inputs": { "scrap_alloy": 3, "lumen_shard": 2 },
+      "outputItem": "circuit_lattice",
+      "outputCount": 1
+    },
+    {
+      "id": "glassroot_seed",
+      "name": "Press Glassroot Seed",
+      "description": "Splits a tuber back into planting stock.",
+      "station": "fabricator",
+      "inputs": { "glassroot": 1 },
+      "outputItem": "glassroot_seed",
+      "outputCount": 2
+    },
+    {
+      "id": "orbit_berry_seed",
+      "name": "Press Orbit Berry Seed",
+      "description": "Needs the hydroponics controller to keep the cuttings alive.",
+      "station": "fabricator",
+      "inputs": { "orbit_berry": 2 },
+      "outputItem": "orbit_berry_seed",
+      "outputCount": 3,
+      "requiresModule": "hydroponics_controller"
+    },
+    {
+      "id": "cinder_moss_spore",
+      "name": "Scrape Cinder Spores",
+      "description": "Dry matting shaken out over a tray.",
+      "station": "fabricator",
+      "inputs": { "cinder_moss": 1 },
+      "outputItem": "cinder_moss_spore",
+      "outputCount": 2
+    }
+  ]
+}

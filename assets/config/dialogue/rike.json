@@ -1,0 +1,129 @@
+{
+  "speaker": "rike",
+
+  "nodes": [
+    {
+      "id": "first_meeting",
+      "entry": true,
+      "when": { "flagNot": "met_rike" },
+      "effects": [
+        { "type": "setFlag", "flag": "met_rike" },
+        { "type": "relationship", "amount": 4 }
+      ],
+      "lines": [
+        "He is sitting on an equipment crate with a module panel across his knees, not working on it.",
+        "\"Rike Halloran. Salvage. Mostly I catalogue things that used to work.\"",
+        "\"You will want the recycler first. Everything else is comfort; that one is arithmetic.\""
+      ],
+      "choices": [
+        { "text": "What does it need?", "next": "recycler_brief" },
+        { "text": "What happened to this place?", "next": "his_theory", "effects": [{ "type": "relationship", "amount": 2 }] }
+      ]
+    },
+    {
+      "id": "recycler_brief",
+      "lines": [
+        "\"Two jobs. The intake is packed solid - cut it out, patch the housing, four plate and a couple of fibre.\"",
+        "\"Then the filter stack wants fresh glass and something living to prime it. A lumen pod does it. Do not ask me why a vegetable primes an air scrubber, ask the people who designed it.\"",
+        "\"Plate you can cut off the wrecked sections around the apron. Glass comes out of the hollow, or off the terrace edge if you do not fancy the walk.\""
+      ]
+    },
+    {
+      "id": "his_theory",
+      "lines": [
+        "\"Officially? Cascade failure, environmental collapse, crew evacuated on foot and did not make it.\"",
+        "\"Unofficially, I have had that panel open for a year.\" He taps it. \"Nothing in it is broken.\"",
+        "\"The comms anchors were cut. Cut, square, with a torch, by somebody who took their time. The signal board was removed and it is not in the debris because it was carried away.\"",
+        "\"That is not a disaster. That is a decision, and I do not like not knowing whose.\""
+      ]
+    },
+
+    {
+      "id": "offer_ledger",
+      "entry": true,
+      "when": { "questAvailable": "parts_ledger", "flagNot": "ledger_offered" },
+      "lines": [
+        "\"Do me a favour while you are out there scavenging.\"",
+        "\"I keep a ledger of every part the old crew pulled. Eight plate and a couple of cells and I can weigh what is missing against what is merely broken.\"",
+        "\"I want to be able to prove the difference. To myself, mostly.\""
+      ],
+      "choices": [
+        {
+          "text": "I will bring you the stock.",
+          "next": "ledger_accepted",
+          "effects": [
+            { "type": "startQuest", "quest": "parts_ledger" },
+            { "type": "setFlag", "flag": "ledger_offered" },
+            { "type": "relationship", "amount": 5 }
+          ]
+        },
+        { "text": "Ask me later.", "next": "ledger_declined" }
+      ]
+    },
+    {
+      "id": "ledger_accepted",
+      "lines": ["\"Eight plate, two cells. Take the torch to the wrecked sections, they are still full of both.\""]
+    },
+    {
+      "id": "ledger_declined",
+      "lines": ["\"Fair. The ledger has waited a year, it can wait a week.\""]
+    },
+    {
+      "id": "ledger_active",
+      "entry": true,
+      "when": { "questActive": "parts_ledger" },
+      "lines": ["\"Eight plate, two cells. I will be here.\""]
+    },
+
+    {
+      "id": "comms_online",
+      "entry": true,
+      "when": { "moduleOnline": "comms_array", "flagNot": "rike_comms_talk" },
+      "effects": [
+        { "type": "setFlag", "flag": "rike_comms_talk" },
+        { "type": "relationship", "amount": 8 },
+        { "type": "evidence", "evidence": "distress_never_sent" }
+      ],
+      "lines": [
+        "\"Dish is up. I pulled the outbound queue first thing.\"",
+        "He turns the slate around. It is empty.",
+        "\"Four years of a working transmitter and not one outbound packet. No mayday, no status ping, nothing.\"",
+        "\"People in trouble reach for the radio. It is the first thing you do. They did not do it, which means they were not in trouble.\"",
+        "\"They were doing something else.\""
+      ]
+    },
+
+    {
+      "id": "confidant",
+      "entry": true,
+      "when": { "minRelationship": 75, "flagNot": "rike_confided" },
+      "effects": [{ "type": "setFlag", "flag": "rike_confided" }],
+      "lines": [
+        "\"You want to know the part that keeps me up.\"",
+        "\"Every single thing they disabled, they disabled reversibly. Anchors cut clean so they can be re-welded. Board pulled, not smashed. Hydroponics head unbolted and set down on a cloth, on a cloth, so the threads would not take grit.\"",
+        "\"You do not do that to a machine you are abandoning. You do that to a machine you expect someone to come back to.\"",
+        "\"They left us a door. I would very much like to know what is on the other side of choosing to walk through it.\""
+      ]
+    },
+
+    {
+      "id": "after_reveal",
+      "entry": true,
+      "when": { "minLogs": 5 },
+      "lines": [
+        "\"Straun. It was Straun who did the disabling, and she voted against.\"",
+        "\"She lost the argument and then she spent her last two weeks making sure the loser's case stayed on the table.\"",
+        "He is quiet for a moment. \"That is the most engineer thing I have ever heard.\""
+      ]
+    },
+
+    {
+      "id": "default",
+      "entry": true,
+      "lines": [
+        "\"Torch cuts salvage. Scanner tells you what a module is missing before you haul the wrong thing across the apron.\"",
+        "\"Use the scanner. Saves walking.\""
+      ]
+    }
+  ]
+}

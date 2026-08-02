@@ -1,0 +1,12 @@
+build/
+.gradle/
+out/
+bin/
+*.class
+*.log
+.idea/
+*.iml
+.vscode/
+.DS_Store
+saves/
+smoke-test.png

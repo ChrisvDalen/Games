@@ -1,0 +1,154 @@
+{
+  "_comment": "Objective types: collectItem, repairModule, talkTo, discoverLandmark, findCrewLog, findAnyCrewLogs, craftItem, harvestCrop, reachRelationship.",
+
+  "quests": [
+    {
+      "id": "arrival",
+      "title": "Someone Is Still Here",
+      "summary": "The colony was listed as abandoned. It is not. Find whoever is out on the terrace.",
+      "autoStart": true,
+      "objectives": [
+        { "type": "talkTo", "colonist": "sefa", "description": "Find the person working the south terrace" }
+      ],
+      "reward": {
+        "items": { "glassroot_seed": 3 },
+        "relationship": { "sefa": 5 }
+      },
+      "completionText": "Sefa hands over a fistful of seed and goes back to work."
+    },
+    {
+      "id": "breaking_ground",
+      "title": "Breaking Ground",
+      "summary": "Prove the terrace still grows something. Till a bed, plant, water it, and bring in a harvest.",
+      "_comment": "No prerequisite on purpose: the player can start farming before they meet anyone, and an act-based objective only counts while its quest is running.",
+      "autoStart": true,
+      "giver": "sefa",
+      "objectives": [
+        { "type": "harvestCrop", "crop": "lumen_pod", "count": 1, "description": "Harvest a Lumen Pod" }
+      ],
+      "reward": {
+        "items": { "cinder_moss_spore": 3 },
+        "relationship": { "sefa": 10 }
+      },
+      "completionText": "Three days from seed to light. The terrace still works."
+    },
+    {
+      "id": "first_breath",
+      "title": "First Breath",
+      "summary": "The oxygen recycler is offline. Salvage what it needs and bring it back up.",
+      "prerequisites": ["arrival"],
+      "autoStart": true,
+      "giver": "rike",
+      "objectives": [
+        { "type": "collectItem", "item": "scrap_alloy", "count": 4, "description": "Salvage 4 Scrap Alloy" },
+        { "type": "repairModule", "module": "oxygen_recycler", "description": "Bring the Oxygen Recycler online" }
+      ],
+      "reward": {
+        "items": { "salvaged_cell": 2 },
+        "relationship": { "rike": 12, "nnenna": 6 }
+      },
+      "completionText": "The station exhales for the first time in four years."
+    },
+    {
+      "id": "signal_discipline",
+      "title": "Signal Discipline",
+      "summary": "The long-range dish never sent anything. Rebuild it and find out why.",
+      "prerequisites": ["first_breath"],
+      "autoStart": true,
+      "giver": "rike",
+      "objectives": [
+        { "type": "craftItem", "item": "circuit_lattice", "count": 1, "description": "Fabricate a Circuit Lattice" },
+        { "type": "repairModule", "module": "comms_array", "description": "Bring the Communications Array online" }
+      ],
+      "reward": {
+        "relationship": { "rike": 15 },
+        "evidence": ["distress_never_sent"]
+      },
+      "completionText": "The outbound queue comes up empty. Four years, and nobody called for help."
+    },
+    {
+      "id": "green_room",
+      "title": "The Green Room",
+      "summary": "Sefa wants the terrace irrigation running before the dry season.",
+      "prerequisites": ["breaking_ground"],
+      "autoStart": true,
+      "giver": "sefa",
+      "objectives": [
+        { "type": "collectItem", "item": "glassroot", "count": 2, "description": "Bring 2 Glassroot" },
+        { "type": "repairModule", "module": "hydroponics_controller", "description": "Restore the Hydroponics Controller" }
+      ],
+      "reward": {
+        "items": { "orbit_berry_seed": 3 },
+        "relationship": { "sefa": 15 },
+        "evidence": ["crew_planned_to_leave"]
+      },
+      "completionText": "The controller wakes up mid-programme, as if it had only been paused."
+    },
+    {
+      "id": "what_happened_here",
+      "title": "What Happened Here",
+      "summary": "Eleven people walked out of a working colony. Find every log they left and go where they went.",
+      "prerequisites": ["first_breath"],
+      "autoStart": true,
+      "objectives": [
+        { "type": "findAnyCrewLogs", "count": 5, "description": "Recover all 5 crew logs" },
+        { "type": "discoverLandmark", "landmark": "glass_hollow", "description": "Reach the Glass Hollow" }
+      ],
+      "reward": {
+        "relationship": { "sefa": 10, "rike": 10, "nnenna": 10 }
+      },
+      "completionText": "You have the whole record now. Open the journal."
+    },
+
+    {
+      "id": "seedstock",
+      "title": "Seedstock",
+      "summary": "Sefa's glassroot strain keeps failing. She wants three clean tubers to start again.",
+      "prerequisites": ["arrival"],
+      "giver": "sefa",
+      "objectives": [
+        { "type": "collectItem", "item": "glassroot", "count": 3, "description": "Bring Sefa 3 Glassroot" }
+      ],
+      "reward": {
+        "items": { "silica_shard": 4 },
+        "relationship": { "sefa": 25 },
+        "evidence": ["weave_in_the_soil"]
+      },
+      "completionText": "Sefa turns a tuber over twice and stops talking for a while."
+    },
+    {
+      "id": "parts_ledger",
+      "title": "Parts Ledger",
+      "summary": "Rike keeps a ledger of everything the old crew removed. He is short on stock to compare against.",
+      "prerequisites": ["first_breath"],
+      "giver": "rike",
+      "objectives": [
+        { "type": "collectItem", "item": "scrap_alloy", "count": 8, "description": "Bring Rike 8 Scrap Alloy" },
+        { "type": "collectItem", "item": "salvaged_cell", "count": 2, "description": "Bring Rike 2 Salvaged Cells" }
+      ],
+      "reward": {
+        "items": { "lumen_shard": 3 },
+        "relationship": { "rike": 25 },
+        "evidence": ["deliberate_shutdown"]
+      },
+      "completionText": "Rike closes the ledger. 'Nothing here was broken. It was undone.'"
+    },
+    {
+      "id": "sleep_study",
+      "title": "Sleep Study",
+      "summary": "Nnenna is collecting dream reports and does not want to explain why yet.",
+      "prerequisites": ["arrival"],
+      "giver": "nnenna",
+      "objectives": [
+        { "type": "findCrewLog", "log": "log_dreams", "description": "Find Ada Renn's private log" },
+        { "type": "reachRelationship", "colonist": "nnenna", "points": 45, "description": "Earn Nnenna's confidence" }
+      ],
+      "reward": {
+        "items": { "filter_mesh": 1 },
+        "relationship": { "nnenna": 20 },
+        "evidence": ["shared_dreams"]
+      },
+      "completionText": "Nnenna reads Renn's log twice and says, very evenly, that she has had that dream."
+    }
+  ]
+}

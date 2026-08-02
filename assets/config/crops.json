@@ -1,0 +1,60 @@
+{
+  "_comment": "stageDays lists the watered days spent in each visual stage; their sum is time to maturity.",
+
+  "crops": [
+    {
+      "id": "lumen_pod",
+      "name": "Lumen Pod",
+      "description": "Three days from seed to light. The first thing anyone plants here.",
+      "seedItem": "lumen_pod_seed",
+      "produceItem": "lumen_pod",
+      "produceMin": 1,
+      "produceMax": 2,
+      "stageDays": [1, 1, 1],
+      "requiresWater": true,
+      "witherAfterDryDays": 3,
+      "colour": "e8ef7c"
+    },
+    {
+      "id": "glassroot",
+      "name": "Glassroot",
+      "description": "Five days, and it wants water every one of them.",
+      "seedItem": "glassroot_seed",
+      "produceItem": "glassroot",
+      "produceMin": 1,
+      "produceMax": 3,
+      "stageDays": [2, 2, 1],
+      "requiresWater": true,
+      "witherAfterDryDays": 2,
+      "colour": "a6dbe6"
+    },
+    {
+      "id": "cinder_moss",
+      "name": "Cinder Moss",
+      "description": "Needs no water at all. Four dry days and it mats over the tile.",
+      "seedItem": "cinder_moss_spore",
+      "produceItem": "cinder_moss",
+      "produceMin": 2,
+      "produceMax": 3,
+      "stageDays": [2, 2],
+      "requiresWater": false,
+      "witherAfterDryDays": 0,
+      "colour": "c4562f"
+    },
+    {
+      "id": "orbit_berry",
+      "name": "Orbit Berry",
+      "description": "Six days to the first fruit, then two more for every crop after.",
+      "seedItem": "orbit_berry_seed",
+      "produceItem": "orbit_berry",
+      "produceMin": 2,
+      "produceMax": 4,
+      "stageDays": [2, 2, 2],
+      "requiresWater": true,
+      "witherAfterDryDays": 4,
+      "regrows": true,
+      "regrowDays": 2,
+      "colour": "9b5fd0"
+    }
+  ]
+}
