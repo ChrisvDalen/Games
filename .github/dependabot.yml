@@ -1,0 +1,21 @@
+version: 2
+updates:
+  # libGDX and JUnit, read from gradle/libs.versions.toml.
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 5
+    groups:
+      gdx:
+        patterns: ['com.badlogicgames.gdx:*']
+      test-libraries:
+        patterns: ['org.junit*']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']
