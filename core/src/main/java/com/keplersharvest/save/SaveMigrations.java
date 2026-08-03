@@ -24,6 +24,13 @@ public final class SaveMigrations {
             new Step(0, "Stamp unversioned saves as format 1", root -> {
                 setInt(root, "version", 1);
                 return root;
+            }),
+            // Format 1 recorded only the world seed. Starting the restored stream at the seed is
+            // exactly what a format-1 file used to do on load, so old saves behave as they did.
+            new Step(1, "Start the random stream from the world seed", root -> {
+                setLong(root, "randomState", root.getLong("seed", 0L));
+                setInt(root, "version", 2);
+                return root;
             })
     );
 
@@ -67,6 +74,10 @@ public final class SaveMigrations {
     }
 
     private static void setInt(JsonValue root, String name, int value) {
+        setLong(root, name, value);
+    }
+
+    private static void setLong(JsonValue root, String name, long value) {
         JsonValue existing = root.get(name);
         if (existing != null) {
             existing.set(value, null);

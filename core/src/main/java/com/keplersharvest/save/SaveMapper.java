@@ -1,5 +1,6 @@
 package com.keplersharvest.save;
 
+import com.keplersharvest.BuildInfo;
 import com.keplersharvest.colony.ColonyModule;
 import com.keplersharvest.configuration.GameContent;
 import com.keplersharvest.farming.FarmLand;
@@ -37,8 +38,9 @@ public final class SaveMapper {
         SaveData data = new SaveData();
         data.version = SaveData.CURRENT_VERSION;
         data.seed = session.seed();
+        data.randomState = session.randomState();
         data.savedAt = Instant.now().toString();
-        data.gameVersion = "0.1.0";
+        data.gameVersion = BuildInfo.VERSION;
 
         data.day = session.clock().day();
         data.minuteOfDay = session.clock().now().minuteOfDay();
@@ -115,6 +117,7 @@ public final class SaveMapper {
     /** Builds a session from save data. Unknown content ids are skipped with no error. */
     public static GameSession restore(GameContent content, SaveData data) {
         GameSession session = GameSession.forLoading(content, data.seed);
+        session.restoreRandomState(data.randomState);
 
         int minutesFromStart = (data.day - 1) * 24 * 60 + data.minuteOfDay
                 - content.settings().wakeMinute();

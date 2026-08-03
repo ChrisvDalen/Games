@@ -1,5 +1,6 @@
 package com.keplersharvest.save;
 
+import com.keplersharvest.BuildInfo;
 import com.keplersharvest.configuration.GameContent;
 import com.keplersharvest.game.GameSession;
 import com.keplersharvest.testing.TestContent;
@@ -195,6 +196,51 @@ class SaveGameTest {
         var loaded = assertInstanceOf(SaveGameService.LoadOutcome.Loaded.class, outcome);
         assertFalse(loaded.migrationsApplied().isEmpty(), "the migration should be recorded");
         assertEquals(3, loaded.session().clock().day());
+    }
+
+    @Test
+    @DisplayName("reloading resumes the random stream instead of rewinding it")
+    void randomStreamSurvivesTheRoundTrip(@TempDir Path directory) {
+        SaveGameService service = new SaveGameService(directory);
+        GameSession original = TestContent.newSession();
+        for (int i = 0; i < 9; i++) {
+            original.random().nextInt(1000);
+        }
+
+        assertTrue(service.save(original).succeeded());
+        int[] afterSaving = {original.random().nextInt(1000), original.random().nextInt(1000)};
+
+        GameSession restored = assertInstanceOf(SaveGameService.LoadOutcome.Loaded.class,
+                service.load(original.content())).session();
+
+        assertEquals(afterSaving[0], restored.random().nextInt(1000));
+        assertEquals(afterSaving[1], restored.random().nextInt(1000));
+    }
+
+    @Test
+    @DisplayName("a format-1 save starts its random stream from the recorded seed")
+    void formatOneSaveMigratesTheRandomState() {
+        SaveGameService service = new SaveGameService(Path.of("unused"));
+
+        SaveGameService.LoadOutcome outcome = service.parse(TestContent.load(), """
+                { "version": 1, "seed": 12345, "day": 2, "minuteOfDay": 400, "mapId": "colony",
+                  "playerX": 5.5, "playerY": 5.5, "facing": "UP", "energy": 50 }
+                """);
+
+        var loaded = assertInstanceOf(SaveGameService.LoadOutcome.Loaded.class, outcome);
+        assertFalse(loaded.migrationsApplied().isEmpty(), "the migration should be recorded");
+        assertEquals(12345L, loaded.session().randomState(),
+                "an old save has no stream position, so it resumes from its seed");
+    }
+
+    @Test
+    @DisplayName("the save stamps the version the build was produced from")
+    void saveStampsTheBuildVersion() {
+        SaveData data = SaveMapper.capture(TestContent.newSession());
+
+        assertEquals(BuildInfo.VERSION, data.gameVersion);
+        assertEquals(System.getProperty("keplersharvest.expectedVersion"), data.gameVersion,
+                "BuildInfo.VERSION has drifted from the version Gradle is building");
     }
 
     @Test

@@ -39,8 +39,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedHashMap;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -71,7 +73,7 @@ public final class GameSession implements StoryState, QuestWorldView {
     private final WorldObjectState worldObjects = new WorldObjectState();
     private final CraftingService crafting;
     private final EventBus events = new EventBus();
-    private final RandomGenerator random;
+    private final WorldRandom random;
 
     private final Map<String, FarmLand> farmlands = new LinkedHashMap<>();
     private final Map<String, Colonist> colonists = new LinkedHashMap<>();
@@ -86,7 +88,7 @@ public final class GameSession implements StoryState, QuestWorldView {
         this.content = Objects.requireNonNull(content, "content");
         this.settings = content.settings();
         this.seed = seed;
-        this.random = new java.util.Random(seed);
+        this.random = new WorldRandom(seed);
         this.clock = new GameClock(settings.realSecondsPerGameMinute(), settings.wakeMinute());
         this.inventory = new Inventory(settings.inventorySize());
         this.toolbar = new Toolbar(inventory, settings.toolbarSize());
@@ -184,6 +186,16 @@ public final class GameSession implements StoryState, QuestWorldView {
         return random;
     }
 
+    /** How far along the random stream this session is, so a save can resume it exactly. */
+    public long randomState() {
+        return random.state();
+    }
+
+    /** Resumes the random stream from a position captured by {@link #randomState()}. */
+    public void restoreRandomState(long state) {
+        random.restore(state);
+    }
+
     public long seed() {
         return seed;
     }
@@ -266,7 +278,7 @@ public final class GameSession implements StoryState, QuestWorldView {
         player.energy().fill();
         int harvestable = countHarvestableCrops();
         notice("You slept. Day " + clock.day() + " begins.");
-        return new SleepReport(dayBefore, clock.day(), player.energy().current(), harvestable, false);
+        return new SleepReport(dayBefore, clock.day(), player.energy().current(), harvestable);
     }
 
     /** Passing out: the day still ends, but energy comes back short. */
@@ -278,8 +290,16 @@ public final class GameSession implements StoryState, QuestWorldView {
         notice("You pushed too far and woke up drained.");
     }
 
+    /**
+     * Puts the player in a bed after passing out.
+     *
+     * <p>A bed on the map they collapsed in wins; otherwise beds are considered in map-id order, so
+     * a second bed added later cannot silently change where an existing save wakes up.
+     */
     private void returnToBed() {
         content.maps().maps().stream()
+                .sorted(Comparator.comparing((WorldMap map) -> !map.id().equals(player.mapId()))
+                        .thenComparing(WorldMap::id))
                 .flatMap(map -> map.objectsOfKind(MapObjectKind.BED).stream()
                         .map(bed -> Map.entry(map, bed)))
                 .findFirst()
@@ -530,7 +550,7 @@ public final class GameSession implements StoryState, QuestWorldView {
     public void changeRelationship(String colonistId, int delta) {
         Optional<RelationshipLevel> promoted = relationships.add(colonistId, delta);
         promoted.ifPresent(level -> notice(content.colonist(colonistId)
-                .map(c -> c.name() + " now considers you a " + level.label().toLowerCase(java.util.Locale.ROOT) + ".")
+                .map(c -> c.name() + " now considers you a " + level.label().toLowerCase(Locale.ROOT) + ".")
                 .orElse("Relationship improved.")));
         publish(new GameEvent.RelationshipChanged(colonistId, relationships.points(colonistId)));
     }
@@ -573,8 +593,9 @@ public final class GameSession implements StoryState, QuestWorldView {
     @Override
     public void grantEvidence(String evidenceId) {
         if (journal.recordEvidence(evidenceId)) {
-            content.evidence().get(evidenceId);
-            notice("Journal updated.");
+            notice(Optional.ofNullable(content.evidence().get(evidenceId))
+                    .map(definition -> "Journal updated: " + definition.title() + ".")
+                    .orElse("Journal updated."));
             publish(new GameEvent.EvidenceRecorded(evidenceId));
             checkReveal();
         }
@@ -662,23 +683,28 @@ public final class GameSession implements StoryState, QuestWorldView {
 
         /** Some maps are dangerous after dark; the map file says so. */
         private boolean hazardousHere() {
-            return currentMap().objectsOfKind(MapObjectKind.LANDMARK).stream()
-                    .anyMatch(object -> object.boolProperty("nightHazard", false))
-                    || currentMap().id().equals(hazardMapId());
-        }
-
-        private String hazardMapId() {
-            return content.maps().maps().stream()
-                    .filter(map -> map.objects().stream()
-                            .anyMatch(object -> object.boolProperty("nightHazard", false)))
-                    .map(WorldMap::id)
-                    .findFirst()
-                    .orElse("");
+            return declaresNightHazard(currentMap().objects());
         }
     }
 
-    /** Summary handed back from {@link #sleep()} so the UI can show what changed. */
-    public record SleepReport(int previousDay, int newDay, int energy, int harvestableCrops, boolean collapsed) {
+    /**
+     * True when any object marks its map as dangerous after dark.
+     *
+     * <p>Deliberately blind to object kind: a hazard on a plain marker should sting just as much as
+     * one on a landmark. It is also deliberately scoped to the objects it is handed, so that adding
+     * a second hazardous map cannot make a safe one dangerous.
+     */
+    static boolean declaresNightHazard(Collection<MapObject> objects) {
+        return objects.stream().anyMatch(object -> object.boolProperty("nightHazard", false));
+    }
+
+    /**
+     * Summary handed back from {@link #sleep()} so the UI can show what changed.
+     *
+     * <p>Collapsing is not reported here: it happens inside the clock listener with no caller to
+     * hand a report to, so {@link #collapse()} posts its own notice instead.
+     */
+    public record SleepReport(int previousDay, int newDay, int energy, int harvestableCrops) {
     }
 
     /** Convenience for tests and tooling: every map object of a kind across all maps. */

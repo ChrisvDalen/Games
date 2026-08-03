@@ -12,10 +12,12 @@ import java.util.ArrayList;
 public final class SaveData {
 
     /** Bumped whenever the format changes; see {@link SaveMigrations}. */
-    public static final int CURRENT_VERSION = 1;
+    public static final int CURRENT_VERSION = 2;
 
     public int version = CURRENT_VERSION;
     public long seed;
+    /** Position in the random stream, so reloading does not rewind rolls already made. */
+    public long randomState;
     public String savedAt = "";
     public String gameVersion = "";
 

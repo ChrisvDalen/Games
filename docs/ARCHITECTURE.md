@@ -125,7 +125,15 @@ Three deliberate behaviours:
   or a stack of zero items is rejected.
 
 `SaveMigrations` runs version-to-version steps on the raw JSON tree before it is mapped, so a step
-can rename or default fields that no longer exist as Java members.
+can rename or default fields that no longer exist as Java members. Format 2 added the random state;
+its migration seeds that field from the world seed, which is exactly what a format-1 file used to do
+on load, so an old colony behaves as it always did.
+
+The random source is `WorldRandom`, a SplitMix64 generator whose whole state is one long. That is
+the point of not using `java.util.Random`: a `Random` cannot report how far along its stream it is,
+so a save could only record the seed, and every reload would rewind rolls the player had already
+made. Saving the state instead means a reloaded game continues the sequence it would have had if it
+had never been saved.
 
 ## Rendering
 

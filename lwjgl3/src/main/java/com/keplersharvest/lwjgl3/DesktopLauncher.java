@@ -1,7 +1,12 @@
 package com.keplersharvest.lwjgl3;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.keplersharvest.KeplersHarvestGame;
 
 /**
@@ -12,6 +17,9 @@ import com.keplersharvest.KeplersHarvestGame;
  * unit tests deliberately never open a window.
  */
 public final class DesktopLauncher {
+
+    /** Seconds a {@code --smoke-test} run lasts when no duration follows the flag. */
+    static final int DEFAULT_SMOKE_TEST_SECONDS = 6;
 
     private DesktopLauncher() {
     }
@@ -32,7 +40,12 @@ public final class DesktopLauncher {
         new Lwjgl3Application(new KeplersHarvestGame(smokeTestSeconds > 0), configuration);
     }
 
-    private static int smokeTestSeconds(String[] args) {
+    /**
+     * Reads the smoke-test duration out of the command line.
+     *
+     * @return the number of seconds to run for, or 0 when the flag is absent
+     */
+    static int smokeTestSeconds(String[] args) {
         for (int i = 0; i < args.length; i++) {
             if (!"--smoke-test".equals(args[i])) {
                 continue;
@@ -41,10 +54,10 @@ public final class DesktopLauncher {
                 try {
                     return Math.max(1, Integer.parseInt(args[i + 1]));
                 } catch (NumberFormatException ignored) {
-                    // Fall through to the default below.
+                    // Not a number, so it is the next argument rather than a duration.
                 }
             }
-            return 6;
+            return DEFAULT_SMOKE_TEST_SECONDS;
         }
         return 0;
     }
@@ -58,21 +71,21 @@ public final class DesktopLauncher {
         Thread timer = new Thread(() -> {
             long step = Math.max(250L, seconds * 1000L / 8);
             int[] panelKeys = {
-                com.badlogic.gdx.Input.Keys.I,
-                com.badlogic.gdx.Input.Keys.ESCAPE,
-                com.badlogic.gdx.Input.Keys.Q,
-                com.badlogic.gdx.Input.Keys.ESCAPE,
-                com.badlogic.gdx.Input.Keys.J,
-                com.badlogic.gdx.Input.Keys.ESCAPE,
-                com.badlogic.gdx.Input.Keys.ESCAPE,
-                com.badlogic.gdx.Input.Keys.ESCAPE,
+                Input.Keys.I,
+                Input.Keys.ESCAPE,
+                Input.Keys.Q,
+                Input.Keys.ESCAPE,
+                Input.Keys.J,
+                Input.Keys.ESCAPE,
+                Input.Keys.ESCAPE,
+                Input.Keys.ESCAPE,
                 // Leave the pack open so the screenshot shows an overlay as well as the world.
-                com.badlogic.gdx.Input.Keys.I,
+                Input.Keys.I,
             };
             try {
                 Thread.sleep(step);
                 // One shot of the world and HUD before any panel covers them.
-                com.badlogic.gdx.Gdx.app.postRunnable(() -> captureScreenshot("smoke-world.png"));
+                Gdx.app.postRunnable(() -> captureScreenshot("smoke-world.png"));
                 for (int key : panelKeys) {
                     Thread.sleep(step);
                     press(key);
@@ -82,10 +95,10 @@ public final class DesktopLauncher {
                 Thread.currentThread().interrupt();
                 return;
             }
-            com.badlogic.gdx.Gdx.app.postRunnable(() -> {
+            Gdx.app.postRunnable(() -> {
                 captureScreenshot("smoke-test.png");
                 System.out.println("Smoke test: ran for ~" + seconds + "s without error, exiting.");
-                com.badlogic.gdx.Gdx.app.exit();
+                Gdx.app.exit();
             });
         }, "smoke-test-timer");
         timer.setDaemon(true);
@@ -93,8 +106,8 @@ public final class DesktopLauncher {
     }
 
     private static void press(int keycode) {
-        com.badlogic.gdx.Gdx.app.postRunnable(() -> {
-            com.badlogic.gdx.InputProcessor processor = com.badlogic.gdx.Gdx.input.getInputProcessor();
+        Gdx.app.postRunnable(() -> {
+            InputProcessor processor = Gdx.input.getInputProcessor();
             if (processor != null) {
                 processor.keyDown(keycode);
                 processor.keyUp(keycode);
@@ -105,12 +118,11 @@ public final class DesktopLauncher {
     /** Writes a PNG beside the working directory so a build can eyeball what was rendered. */
     private static void captureScreenshot(String fileName) {
         try {
-            com.badlogic.gdx.graphics.Pixmap pixmap = com.badlogic.gdx.graphics.Pixmap.createFromFrameBuffer(
+            Pixmap pixmap = Pixmap.createFromFrameBuffer(
                     0, 0,
-                    com.badlogic.gdx.Gdx.graphics.getBackBufferWidth(),
-                    com.badlogic.gdx.Gdx.graphics.getBackBufferHeight());
-            com.badlogic.gdx.graphics.PixmapIO.writePNG(
-                    com.badlogic.gdx.Gdx.files.local(fileName), pixmap, 6, true);
+                    Gdx.graphics.getBackBufferWidth(),
+                    Gdx.graphics.getBackBufferHeight());
+            PixmapIO.writePNG(Gdx.files.local(fileName), pixmap, 6, true);
             pixmap.dispose();
             System.out.println("Smoke test: wrote " + fileName);
         } catch (RuntimeException e) {

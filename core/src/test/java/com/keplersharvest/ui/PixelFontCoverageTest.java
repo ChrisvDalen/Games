@@ -95,8 +95,7 @@ class PixelFontCoverageTest {
     @Test
     @DisplayName("the generated font declares a glyph for every printable ASCII character")
     void fontCoversPrintableAscii() throws Exception {
-        Path descriptor = ((FileResourceReader) FileResourceReader.locateAssets()).root()
-                .resolve("ui/pixel-font.fnt");
+        Path descriptor = FileResourceReader.locateAssets().root().resolve("ui/pixel-font.fnt");
         assertTrue(Files.isRegularFile(descriptor),
                 "run ./gradlew generatePixelFont - missing " + descriptor);
 
