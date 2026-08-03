@@ -9,5 +9,7 @@ bin/
 .vscode/
 .DS_Store
 saves/
-smoke-test.png
-smoke-world.png
+# Smoke-test screenshots. Written to the working directory, which is assets/
+# when the game is launched the way the README and CI launch it.
+smoke-*.png
+assets/smoke-*.png

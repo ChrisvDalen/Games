@@ -4,6 +4,7 @@ plugins {
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'jacoco'
 
     group = 'com.keplersharvest'
     version = '0.1.0'
@@ -27,16 +28,26 @@ allprojects {
         useJUnitPlatform()
         testLogging {
             events 'passed', 'skipped', 'failed'
-            exceptionFormat 'full'
+            exceptionFormat = 'full'
+        }
+        finalizedBy tasks.named('jacocoTestReport')
+    }
+
+    tasks.withType(AbstractArchiveTask).configureEach {
+        // Byte-identical jars for identical input, so a rebuild can be compared against a release.
+        preserveFileTimestamps = false
+        reproducibleFileOrder = true
+    }
+
+    tasks.withType(JacocoReport).configureEach {
+        // XML for CI to read, HTML for a human to browse.
+        reports {
+            xml.required = true
+            html.required = true
         }
     }
 }
 
-/**
- * Regenerates the placeholder tileset PNG from assets/config/palette.json.
- * The running game never reads this file - it exists so the .tmj maps can be
- * opened and edited in Tiled. See README "Replacing placeholder assets".
- */
 /**
  * Regenerates assets/ui/pixel-font.{png,fnt} from the glyph table in PixelGlyphs.java.
  * The game does load these; they are build output from data committed in this repository.
@@ -51,7 +62,7 @@ tasks.register('generatePixelFont', JavaExec) {
 
 tasks.register('generateTilesetImage', JavaExec) {
     group = 'assets'
-    description = 'Regenerates assets/maps/meridian_tileset.png from the palette configuration.'
+    description = 'Regenerates assets/maps/meridian_tileset.png from the colours in the .tsj tileset.'
     classpath = project(':core').sourceSets.main.runtimeClasspath
     mainClass = 'com.keplersharvest.tools.TilesetImageGenerator'
     args rootProject.file('assets').absolutePath
