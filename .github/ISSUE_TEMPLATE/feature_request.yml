@@ -1,0 +1,40 @@
+name: Idea
+description: Suggest content, a mechanic, or a change
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        The README's "Known limitations" section lists what is already known to
+        be missing — worth a glance first.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change is this
+      options:
+        - Content (a crop, recipe, quest, colonist, map)
+        - A game mechanic
+        - Interface or controls
+        - Engine, build or tooling
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: The idea
+      description: What it is, and what playing with it would feel like.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it belongs here
+      description: >
+        What it adds to the colony, the mystery, or the daily loop. This is a
+        deliberately small vertical slice, so "it fits the story being told"
+        counts for more than "other games have it".
+    validations:
+      required: true

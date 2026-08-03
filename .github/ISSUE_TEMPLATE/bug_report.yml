@@ -1,0 +1,59 @@
+name: Bug report
+description: Something in the game behaves wrongly
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to reproduce it
+      description: >
+        From a new game if you can. Which map, which day, which tool, which key.
+      placeholder: |
+        1. Start a new game
+        2. Walk east to the South Terrace
+        3. Equip the Soil Blade and press F
+    validations:
+      required: true
+
+  - type: input
+    id: java-version
+    attributes:
+      label: Java version
+      description: Output of `java -version`.
+      placeholder: openjdk 21.0.2
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: Ubuntu 24.04 / Windows 11 / macOS 15
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      description: >
+        Anything printed to the terminal, especially a stack trace. Automatically
+        formatted as code.
+      render: text
+
+  - type: textarea
+    id: save
+    attributes:
+      label: Save file
+      description: >
+        Optional, and only if the bug needs it. The slot is readable JSON at
+        `~/.keplers-harvest/slot1.json`. Do not attach it if you would rather not
+        share your colony.

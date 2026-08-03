@@ -1,5 +1,7 @@
 # Kepler's Harvest
 
+[![CI](https://github.com/ChrisvDalen/Games/actions/workflows/ci.yml/badge.svg)](https://github.com/ChrisvDalen/Games/actions/workflows/ci.yml)
+
 A 2D top-down space-colony life simulation. You arrive at Meridian Station, an agricultural colony
 on the planet Ilyra that was logged as abandoned three years ago, and find three people still living
 in it and no explanation for where the original crew of eleven went.
@@ -96,6 +98,7 @@ lwjgl3/    Desktop launcher (LWJGL3 backend).
 assets/    Content: JSON configuration, Tiled maps. No code.
 tools/     Developer scripts (map generation).
 docs/      Architecture notes and the placeholder-asset guide.
+.github/   CI workflow, issue and pull-request templates.
 ```
 
 `core` is organised by feature, not by layer:
@@ -178,22 +181,28 @@ move to a conventional sprite sheet.
 
 ## Testing
 
-116 tests, all in `core/src/test`, none of which open a window:
+133 tests, none of which open a window:
 
 ```bash
 ./gradlew test
 ```
 
 They cover inventory stacking and atomic removal, crop growth and withering, time progression and
-sleeping, repair material requirements, crafting, relationship tiers, quest objectives and
-prerequisites, conditional dialogue, journal and reveal gating, save validation and migration, map
-and portal integrity, character coverage of the pixel font, sprite-shape integrity, and the
-complete first-milestone loop end to end. The shipped JSON is loaded by the tests, so a content mistake fails the build.
+sleeping, night hazards, repair material requirements, crafting, relationship tiers, quest
+objectives and prerequisites, conditional dialogue, journal and reveal gating, save validation and
+migration, random-stream continuity across a save, map and portal integrity, character coverage of
+the pixel font, sprite-shape integrity, and the complete first-milestone loop end to end. The
+shipped JSON is loaded by the tests, so a content mistake fails the build.
+
+Coverage is measured by JaCoCo and written to `core/build/reports/jacoco/test/html/index.html`.
+
+Every push runs `./gradlew build` on CI, then boots the real game headless under Xvfb with software
+OpenGL and fails if it does not render — the two screenshots are uploaded as build artifacts, so a
+broken panel is visible without checking out the branch.
 
 ## Known limitations
 
-- One save slot. The format is versioned and has a migration hook, but only the initial version
-  exists.
+- One save slot. The format is versioned, and migrations run on load.
 - Colonists teleport between scheduled posts at each phase change rather than walking there.
 - No audio.
 - No controller or mouse-driven movement; keyboard only.
@@ -202,9 +211,25 @@ complete first-milestone loop end to end. The shipped JSON is loaded by the test
 - The player has a two-frame walk cycle and colonists a slow idle sway; nothing else is animated.
 - Sprites are 16x16 with no directional variants for colonists, and no seasonal or weather art.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). The short version: JDK 21, `./gradlew build`, and game rules
+never touch `Gdx.*` statics.
+
 ## Originality
 
 The setting, characters, dialogue, crops, colony modules, maps, mystery, font and all artwork are
 original to this project. It shares a genre, a broad structure (top-down, day cycle, farming,
 relationships) and an era-typical pixel-art presentation with other life simulations; it contains no
 assets, names, text, art or content copied from any of them.
+
+## Licence
+
+Dual-licensed, because the engine and the world it runs want different things:
+
+- **Code** — MIT. Fork it, ship a farming game with it.
+- **Game content** — CC BY-NC-SA 4.0. The story, characters, dialogue, maps, artwork and the JSON
+  that authors them stay attributed, non-commercial and share-alike.
+
+[LICENSE-ASSETS.md](LICENSE-ASSETS.md) says exactly which files fall on which side, including the
+two source files whose contents are artwork.
