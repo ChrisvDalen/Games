@@ -35,28 +35,16 @@ projects, but their packaging (`mvn package`, producing an APK / IPA) has
 macOS/Xcode/RoboVM toolchain. Both must be built once on a machine (or CI
 runner) that has the relevant toolchain before a store submission.
 
-## A dependency-version discrepancy (and how it was resolved)
+## A dependency-version discrepancy (already fixed at the root)
 
-The reactor root `pom.xml` (which this spec must not modify) pins
-`gdx-pay.version` to `1.4.0`. As of this writing, Maven Central has never
-published that version of `com.badlogicgames.gdxpay:gdx-pay-client` (or any
-other `gdx-pay-*` artifact) - the newest real release is **1.3.13**
-(confirmed against `repo.maven.apache.org`'s `maven-metadata.xml`).
-
-Since editing the root `pom.xml` was out of scope, `spec-b-tower-peril/pom.xml`
-overrides the inherited property:
-
-```xml
-<properties>
-  <gdx-pay.version>1.3.13</gdx-pay.version>
-</properties>
-```
-
-Every dependency declaration in `core`, `android` and `ios` still references
-`${gdx-pay.version}` - nothing is hardcoded at the point of use - so bumping
-this one line is all that's needed if/when a real `1.4.0` is published.
-Sibling specs (A, C) depend on the same root property and will likely need
-the same override.
+Maven Central has never published `com.badlogicgames.gdxpay:gdx-pay-client`
+(or any other `gdx-pay-*` artifact) at version `1.4.0` - the newest real
+release is **1.3.13** (confirmed against `repo.maven.apache.org`'s
+`maven-metadata.xml`). The reactor root `pom.xml`'s `gdx-pay.version`
+property is set to `1.3.13` to match; every dependency declaration in
+`core`, `android` and `ios` references `${gdx-pay.version}` rather than a
+hardcoded literal, so bumping that one root-level property is all that's
+needed if/when a real `1.4.0` is published.
 
 While tracking this down, two related gdx-pay artifact-id corrections were
 also needed (verified against Maven Central's actual directory listing, not
