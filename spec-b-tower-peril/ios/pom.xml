@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>tower-peril</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>tower-peril-ios</artifactId>
+  <!--
+    packaging is "jar", not a literal "ipa" packaging type: robovm-maven-plugin
+    does not register "ipa" as a Maven packaging type at all (verified by
+    disassembling both the reactor-pinned 2.3.20 and the latest 2.3.26
+    plugin jars - neither ships the components/lifecycle-mapping metadata a
+    real custom-packaging plugin needs, and declaring <packaging>ipa</packaging>
+    fails "Unknown packaging: ipa" even for a bare single-module project with
+    no parent/reactor involved). The plugin's real, documented usage - and
+    what every actual libGDX+RoboVM project template ships - is standard jar
+    packaging (there IS real Java to compile: IOSLauncher, IosAdsService)
+    with the plugin's create-ipa goal bound to the package phase below,
+    which is exactly what produces the .ipa as an attached artifact.
+  -->
+  <packaging>jar</packaging>
+
+  <name>Tower Peril - iOS</name>
+  <description>
+    iOS launcher: IOSApplication.Delegate wiring TowerPerilGame, gdx-pay's
+    Apple StoreKit backend (including season-pass subscription support)
+    behind IapService, and a small native Objective-C shim
+    (native/AdsBridge.h/.m) around the Google-Mobile-Ads-SDK CocoaPod bound
+    into Java via RoboVM native methods. The create-ipa goal (bound to the
+    package phase) requires macOS + Xcode + the RoboVM toolchain, which is
+    not present in this sandbox - see README.md.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.moneyfirst</groupId>
+      <artifactId>tower-peril-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-robovm</artifactId>
+      <version>${gdx.version}</version>
+    </dependency>
+
+    <!-- gdx-pay's Apple StoreKit backend, including subscription (season pass) support. -->
+    <dependency>
+      <groupId>com.badlogicgames.gdxpay</groupId>
+      <artifactId>gdx-pay-iosrobovm-apple</artifactId>
+      <version>${gdx-pay.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.mobidevelop.robovm</groupId>
+      <artifactId>robovm-rt</artifactId>
+      <version>${robovm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mobidevelop.robovm</groupId>
+      <artifactId>robovm-cocoatouch</artifactId>
+      <version>${robovm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mobidevelop.robovm</groupId>
+      <artifactId>robovm-objc</artifactId>
+      <version>${robovm.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.mobidevelop.robovm</groupId>
+        <artifactId>robovm-maven-plugin</artifactId>
+        <version>${robovm.version}</version>
+        <configuration>
+          <config>robovm.xml</config>
+          <iosSignIdentity>${robovm.iosSignIdentity}</iosSignIdentity>
+        </configuration>
+        <executions>
+          <execution>
+            <id>build-and-package</id>
+            <phase>package</phase>
+            <goals>
+              <goal>create-ipa</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <properties>
+    <!-- Overridden with -Drobovm.iosSignIdentity=... for a real device/App Store build; unused for the simulator. -->
+    <robovm.iosSignIdentity>iPhone Developer</robovm.iosSignIdentity>
+  </properties>
+</project>

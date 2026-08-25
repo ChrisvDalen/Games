@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Placeholder launcher icon: a simple procedural vector (a stylized tube of liquid), consistent
+  with the rest of the game's no-external-art-assets rendering approach. Replace with real,
+  designer-made adaptive icon art (per Play Console's icon guidelines) before store submission -
+  see README.md's before-submission checklist.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/vector"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <path android:pathData="M0,0h108v108h-108z" android:fillColor="#171A24" />
+
+    <!-- Tube outline -->
+    <path
+        android:pathData="M38,20 h32 v10 l6,50 a8,8 0 0 1 -8,8 h-28 a8,8 0 0 1 -8,-8 l6,-50 z"
+        android:fillColor="#2A2F3E" />
+
+    <!-- Bottom (blue) liquid layer -->
+    <path
+        android:pathData="M35,60 l-2.4,20 a8,8 0 0 0 8,8 h28 a8,8 0 0 0 8,-8 l-2.4,-20 z"
+        android:fillColor="#3B6FE0" />
+
+    <!-- Top (teal) liquid layer -->
+    <path android:pathData="M36.2,50 h35.6 l-1.2,10 h-33.2 z" android:fillColor="#1FB8A6" />
+</vector>

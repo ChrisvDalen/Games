@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>money-first-specs</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>wardrobe-sort</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Wardrobe Sort (Spec C)</name>
+  <description>
+    Timed drag-and-drop outfit-matching game with a 2D avatar-compositing engine.
+    Cosmetic-IAP-driven monetization play: purely cosmetic garment packs, a
+    remove-ads unlock, an avatar-personalization ("photo avatar") feature-flag
+    unlock, and an interstitial-after-every-round ad pacing policy with a
+    rewarded-video path for +10s time extensions or outfit hints. libGDX
+    multi-module project: core (pure Java game logic + tests), android (APK via
+    android-maven-plugin), ios (IPA via robovm-maven-plugin).
+  </description>
+
+  <modules>
+    <module>core</module>
+    <module>android</module>
+    <module>ios</module>
+  </modules>
+
+  <properties>
+    <!--
+      The reactor root (../pom.xml, not owned by this spec) declares
+      gdx-pay.version=1.4.0, but no such version was ever published to Maven
+      Central for any com.badlogicgames.gdxpay artifact (gdx-pay-client,
+      gdx-pay-android-googlebilling, gdx-pay-iosrobovm-apple, ...) - the
+      highest release available is 1.3.13. Every module below still
+      references the dependency purely via ${gdx-pay.version} (never a
+      hardcoded literal); this override just repoints that property, scoped
+      to this spec's own module tree only, to a version that actually
+      resolves. See README.md "Known deviations from the shared property
+      list" for details.
+    -->
+    <gdx-pay.version>1.3.13</gdx-pay.version>
+  </properties>
+</project>

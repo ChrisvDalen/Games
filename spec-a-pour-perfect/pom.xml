@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>money-first-specs</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>pour-perfect</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Pour Perfect</name>
+  <description>
+    Liquid-sort puzzle mobile game (libGDX, Android + iOS via RoboVM/MobiVM).
+    Ads-volume monetization: interstitial every 3rd solved level, rewarded video
+    for extra tube / hint / undo-all, banner on level-select. See ../docs/MONEY_FIRST_ARCHITECTURE.md
+    at the repo root for the shared cross-spec architecture this follows.
+  </description>
+
+  <modules>
+    <module>core</module>
+    <module>android</module>
+    <module>ios</module>
+  </modules>
+
+  <properties>
+    <!--
+      Deviation from the reactor's declared gdx-pay.version (1.4.0): verified against
+      Maven Central on 2026-08-25 that com.badlogicgames.gdxpay:gdx-pay-client has never
+      published a 1.4.0 artifact (highest published version is 1.3.13; see
+      https://repo.maven.apache.org/maven2/com/badlogicgames/gdxpay/gdx-pay-client/maven-metadata.xml).
+      Overriding the inherited property here (not editing the shared root pom.xml, which
+      other specs' agents are working in parallel against) to the closest real, resolvable
+      release so `mvn test` actually succeeds. Every dependency below still references
+      ${gdx-pay.version} rather than hardcoding a literal, so bumping this one property is
+      enough once the upstream reactor pom is corrected or gdx-pay actually ships 1.4.0.
+      Flagged again in README.md.
+    -->
+    <gdx-pay.version>1.3.13</gdx-pay.version>
+
+    <pourperfect.package>com.moneyfirst.pourperfect</pourperfect.package>
+  </properties>
+</project>

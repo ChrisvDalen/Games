@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>Tower Peril</string>
+    <key>CFBundleExecutable</key>
+    <string>TowerPeril</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.moneyfirst.towerperil</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>Tower Peril</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>armv7</string>
+    </array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UIRequiresFullScreen</key>
+    <true/>
+    <key>UIStatusBarHidden</key>
+    <true/>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+
+    <!--
+      Google's published TEST AdMob application id. REPLACE with the real
+      app id from the AdMob console before a store release - see
+      README.md "Before store submission".
+    -->
+    <key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-3940256099942544~1458002511</string>
+
+    <!--
+      Required since iOS 14.5 (App Tracking Transparency) for any app that
+      shows ads or otherwise tracks users across apps - the Google Mobile
+      Ads SDK will not request the ATT permission dialog without this key.
+    -->
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Tower Peril uses tracking to show you more relevant ads and to measure ad performance. You can change this permission anytime in Settings.</string>
+
+    <key>SKAdNetworkItems</key>
+    <array>
+        <dict>
+            <key>SKAdNetworkIdentifier</key>
+            <string>cstr6suwn9.skadnetwork</string>
+        </dict>
+    </array>
+</dict>
+</plist>

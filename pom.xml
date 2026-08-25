@@ -34,8 +34,10 @@
     <gdx.version>1.13.1</gdx.version>
     <!-- MobiVM is the maintained RoboVM fork libGDX iOS builds use today. -->
     <robovm.version>2.3.20</robovm.version>
-    <!-- gdx-pay: cross-platform IAP abstraction (Google Play Billing + Apple StoreKit backends). -->
-    <gdx-pay.version>1.4.0</gdx-pay.version>
+    <!-- gdx-pay: cross-platform IAP abstraction (Google Play Billing + Apple StoreKit backends).
+         1.3.13 is the latest version actually published to Maven Central as of 2026-08-25;
+         1.4.0 does not exist there. -->
+    <gdx-pay.version>1.3.13</gdx-pay.version>
 
     <android-maven-plugin.version>4.6.0</android-maven-plugin.version>
     <android-sdk.version>34</android-sdk.version>

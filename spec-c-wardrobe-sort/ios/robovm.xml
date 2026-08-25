@@ -1,0 +1,73 @@
+<config>
+    <executableName>WardrobeSort</executableName>
+    <mainClass>com.moneyfirst.wardrobesort.ios.IOSLauncher</mainClass>
+    <os>ios</os>
+
+    <iosInfoPList>Info.plist.xml</iosInfoPList>
+
+    <!--
+      Standard libGDX/RoboVM iOS frameworks, plus AVFoundation/AudioToolbox
+      for audio and StoreKit for gdx-pay's Apple purchase manager. The Google
+      Mobile Ads SDK's own frameworks come in transitively via the CocoaPods
+      dependency below, not listed here.
+    -->
+    <frameworks>
+        <framework>UIKit</framework>
+        <framework>OpenGLES</framework>
+        <framework>QuartzCore</framework>
+        <framework>CoreGraphics</framework>
+        <framework>Foundation</framework>
+        <framework>AudioToolbox</framework>
+        <framework>AVFoundation</framework>
+        <framework>StoreKit</framework>
+    </frameworks>
+
+    <!--
+      Resolves and links the Google Mobile Ads SDK (used by native/AdsBridge.m)
+      via CocoaPods, the same way Firebase/Facebook/etc. iOS SDKs are typically
+      consumed from a RoboVM project - MobiVM's toolchain runs `pod install`
+      under the hood and links the resulting framework into the final binary.
+      Requires CocoaPods (`sudo gem install cocoapods`) on the build machine.
+    -->
+    <cocoapods>
+        <pod>Google-Mobile-Ads-SDK</pod>
+    </cocoapods>
+
+    <!--
+      native/AdsBridge.h + AdsBridge.m implement the plain C functions
+      IosAdsService.java binds to via RoboVM's Bro mechanism (see that
+      class's javadoc). This is the one part of this module that needs a
+      real Xcode/macOS + RoboVM toolchain build to compile and link -
+      confirm by running `mvn -pl spec-c-wardrobe-sort/ios -am package` (or
+      the RoboVM IDE plugin's run/build) on such a machine, with these two
+      files added to the generated Xcode project's Objective-C compile
+      sources (e.g. via a small static-library target, or the RoboVM IDE
+      plugin's "native sources" project setting) so they get compiled and
+      linked into the same binary IosAdsService.java's @Bridge(symbol=...)
+      calls resolve against internally (Library.INTERNAL).
+    -->
+    <resources>
+        <resource>
+            <directory>native</directory>
+            <includes>
+                <include>*.h</include>
+            </includes>
+        </resource>
+    </resources>
+
+    <!--
+      Unsigned by default so `mvn package` works out of the box for a
+      simulator/development build without a provisioning profile on hand.
+      For a real device/App-Store-ready IPA, override via the
+      robovm.iosSignIdentity / robovm.iosProvisioningProfile Maven
+      properties in pom.xml (e.g. -Drobovm.iosSignIdentity="iPhone
+      Distribution: ..." -Drobovm.iosProvisioningProfile=...), which take
+      precedence over this default when set.
+    -->
+    <iosSkipSigning>true</iosSkipSigning>
+
+    <archs>
+        <arch>thumbv7</arch>
+        <arch>arm64</arch>
+    </archs>
+</config>

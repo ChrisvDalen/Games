@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>pour-perfect</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>pour-perfect-ios</artifactId>
+  <!-- robovm-maven-plugin does not register a custom "ipa" packaging type (unlike
+       android-maven-plugin's "apk") - the standard RoboVM/MobiVM Maven pattern is plain jar
+       packaging with the plugin's create-ipa goal bound to the package phase below. -->
+  <packaging>jar</packaging>
+
+  <name>Pour Perfect - iOS</name>
+  <description>
+    iOS launcher via RoboVM/MobiVM: real StoreKit IAP through gdx-pay's Apple App Store backend,
+    plus a small native Objective-C shim (native/AdsBridge.h/.m) around the Google Mobile Ads iOS
+    SDK for interstitial/rewarded/banner ads (no generated RoboVM bindings exist for that SDK).
+    NOT buildable in this sandbox (needs macOS + Xcode + the RoboVM toolchain) - see
+    ../README.md for what has and hasn't been verified.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.moneyfirst</groupId>
+      <artifactId>pour-perfect-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-robovm</artifactId>
+      <version>${gdx.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.badlogicgames.gdxpay</groupId>
+      <artifactId>gdx-pay-iosrobovm-apple</artifactId>
+      <version>${gdx-pay.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.mobidevelop.robovm</groupId>
+      <artifactId>robovm-rt</artifactId>
+      <version>${robovm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mobidevelop.robovm</groupId>
+      <artifactId>robovm-cocoatouch</artifactId>
+      <version>${robovm.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>pour-perfect</finalName>
+    <plugins>
+      <plugin>
+        <groupId>com.mobidevelop.robovm</groupId>
+        <artifactId>robovm-maven-plugin</artifactId>
+        <version>${robovm.version}</version>
+        <configuration>
+          <config>${project.basedir}/robovm.xml</config>
+          <iosSignIdentity>${robovm.iosSignIdentity}</iosSignIdentity>
+        </configuration>
+        <executions>
+          <execution>
+            <id>build-ipa</id>
+            <phase>package</phase>
+            <goals>
+              <goal>create-ipa</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <properties>
+    <!-- Overridable via -Drobovm.iosSignIdentity=... on a real macOS/Xcode build machine; left
+         unset (empty) here since no signing identity exists in this sandbox and this module is
+         not built here. -->
+    <robovm.iosSignIdentity></robovm.iosSignIdentity>
+  </properties>
+</project>

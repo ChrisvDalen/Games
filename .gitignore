@@ -11,3 +11,10 @@ bin/
 saves/
 smoke-test.png
 smoke-world.png
+
+# Maven (money-first specs)
+target/
+robovm-build/
+*.ipa
+*.apk
+*.dSYM/

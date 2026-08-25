@@ -1,0 +1,59 @@
+<config>
+    <executableName>TowerPeril</executableName>
+    <mainClass>com.moneyfirst.towerperil.ios.IOSLauncher</mainClass>
+    <os>ios</os>
+    <arch>arm64</arch>
+    <target>ios</target>
+    <infoPList>Info.plist.xml</infoPList>
+
+    <!--
+      No <resources> entry: Tower Peril draws everything procedurally with
+      ShapeRenderer/Pixmap (see core's screens package) - there is no bundled
+      art to copy into the app bundle.
+    -->
+
+    <!--
+      Google-Mobile-Ads-SDK CocoaPod: pulls in GoogleMobileAds.framework (and
+      its own transitive pods) so native/AdsBridge.m can import
+      <GoogleMobileAds/GoogleMobileAds.h> and use GADInterstitialAd /
+      GADRewardedAd / GADBannerView. RoboVM's Maven plugin runs `pod install`
+      against these entries before compiling/linking the app - macOS + Xcode
+      + CocoaPods required, none of which are present in this sandbox (see
+      README.md "What's NOT verified here").
+    -->
+    <cocoapods>
+        <pod>
+            <name>Google-Mobile-Ads-SDK</name>
+        </pod>
+    </cocoapods>
+
+    <!--
+      native/AdsBridge.h + native/AdsBridge.m are the small Objective-C shim
+      exposing extern "C" ads_* functions (see native/AdsBridge.h) that
+      IosAdsService.java binds to via RoboVM @Bridge native methods.
+      AdsBridge.m must be compiled to a static library before this module's
+      `mvn package` step, since the RoboVM Maven plugin links prebuilt
+      libs/frameworks/pods rather than compiling arbitrary Objective-C itself.
+      See README.md "Building the native ads bridge" for the exact clang/
+      Xcode command that produces native/libAdsBridge.a from AdsBridge.m.
+    -->
+    <libs>
+        <lib>native/libAdsBridge.a</lib>
+    </libs>
+
+    <frameworks>
+        <framework>AudioToolbox</framework>
+        <framework>QuartzCore</framework>
+        <framework>UIKit</framework>
+        <framework>OpenGLES</framework>
+        <framework>OpenAL</framework>
+        <framework>Foundation</framework>
+        <framework>CoreGraphics</framework>
+        <framework>StoreKit</framework>
+    </frameworks>
+
+    <forceLinkClasses>
+        <pattern>com.moneyfirst.towerperil.**</pattern>
+        <pattern>com.badlogic.gdx.pay.ios.apple.**</pattern>
+    </forceLinkClasses>
+</config>

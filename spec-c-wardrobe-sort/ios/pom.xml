@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>wardrobe-sort</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>wardrobe-sort-ios</artifactId>
+  <!--
+    robovm-maven-plugin 2.3.20 ships no Plexus component descriptor
+    registering a custom "ipa" packaging/lifecycle (unlike android-maven-plugin's
+    "apk", used in android/pom.xml) - `<packaging>ipa</packaging>` is simply not
+    a type Maven recognizes for this plugin/version, and fails project parsing
+    reactor-wide. Standard "jar" packaging runs the normal compile/test/package
+    lifecycle for the Java sources below, with robovm:create-ipa additionally
+    bound to the package phase (its own documented default binding - the
+    <executions> block below is only needed because a non-default <phase> isn't
+    being used) to actually invoke the RoboVM AOT compiler and produce the IPA.
+  -->
+  <packaging>jar</packaging>
+
+  <name>Wardrobe Sort - iOS</name>
+  <description>
+    iOS launcher: IOSApplication.Delegate implementation wiring WardrobeSortGame,
+    a real IapService backed by gdx-pay's Apple App Store (StoreKit) backend,
+    and a real AdsService backed by native/AdsBridge.h/.m - a small Objective-C
+    shim around the Google Mobile Ads iOS SDK (Google-Mobile-Ads-SDK CocoaPod),
+    bound from Java via RoboVM's native-method mechanism. Not built/packaged in
+    this sandbox (no macOS/Xcode/RoboVM toolchain) - verify
+    `mvn -pl spec-c-wardrobe-sort/ios -am package` on a macOS machine with
+    Xcode and the RoboVM toolchain installed before store submission.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.moneyfirst</groupId>
+      <artifactId>wardrobe-sort-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.mobidevelop.robovm</groupId>
+      <artifactId>robovm-rt</artifactId>
+      <version>${robovm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mobidevelop.robovm</groupId>
+      <artifactId>robovm-cocoatouch</artifactId>
+      <version>${robovm.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-robovm</artifactId>
+      <version>${gdx.version}</version>
+    </dependency>
+    <!-- iOS has one universal native lib (no per-ABI classifiers, unlike Android). -->
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-ios</classifier>
+    </dependency>
+
+    <dependency>
+      <groupId>com.badlogicgames.gdxpay</groupId>
+      <artifactId>gdx-pay-iosrobovm-apple</artifactId>
+      <version>${gdx-pay.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>com.mobidevelop.robovm</groupId>
+        <artifactId>robovm-maven-plugin</artifactId>
+        <version>${robovm.version}</version>
+        <configuration>
+          <config>robovm.xml</config>
+          <iosSignIdentity>${robovm.iosSignIdentity}</iosSignIdentity>
+          <iosProvisioningProfile>${robovm.iosProvisioningProfile}</iosProvisioningProfile>
+        </configuration>
+        <executions>
+          <execution>
+            <id>build-ipa</id>
+            <phase>package</phase>
+            <goals>
+              <goal>create-ipa</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <properties>
+    <!-- Overridden with -D or a machine-local settings.xml profile for a real signed build; left
+         blank keeps `mvn package` usable for an unsigned simulator build during development. -->
+    <robovm.iosSignIdentity></robovm.iosSignIdentity>
+    <robovm.iosProvisioningProfile></robovm.iosProvisioningProfile>
+  </properties>
+</project>

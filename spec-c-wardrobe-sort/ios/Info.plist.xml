@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en</string>
+    <key>CFBundleDisplayName</key>
+    <string>Wardrobe Sort</string>
+    <key>CFBundleExecutable</key>
+    <string>WardrobeSort</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.moneyfirst.wardrobesort</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>WardrobeSort</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>armv7</string>
+    </array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UIStatusBarHidden</key>
+    <true/>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+
+    <!--
+      TODO before release: replace with this app's real AdMob application ID
+      from the AdMob console. The value below is Google's published TEST app
+      ID (ca-app-pub-3940256099942544~3347511713) - shipping it to
+      production means only test ads will ever be requested.
+    -->
+    <key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-3940256099942544~3347511713</string>
+
+    <!-- Required by the Google Mobile Ads SDK (and by App Tracking Transparency in
+         general) as of iOS 14+ - shown before any ad-personalization tracking
+         request. -->
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Wardrobe Sort uses this to show you more relevant ads and to support free play. You can still play and see ads either way.</string>
+
+    <!--
+      Not used by anything in this engine module today - WS_AVATAR_PERSONALIZATION
+      (see PlayerUnlocks.isAvatarPersonalizationActive()) only wires up the
+      purchase/unlock flag here. These two keys are pre-declared so Info.plist
+      is ready the day a real photo-upload/background-removal "photo avatar"
+      pipeline (a separate backend service, out of scope for this module) is
+      added on top of that unlock - iOS requires a usage-description string to
+      be present before an app may even ask for camera/photo-library access.
+    -->
+    <key>NSCameraUsageDescription</key>
+    <string>Wardrobe Sort's photo avatar feature (once enabled) uses your camera to create a personalized avatar.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Wardrobe Sort's photo avatar feature (once enabled) uses a photo you choose to create a personalized avatar.</string>
+
+    <key>CFBundleIconFiles</key>
+    <array/>
+</dict>
+</plist>

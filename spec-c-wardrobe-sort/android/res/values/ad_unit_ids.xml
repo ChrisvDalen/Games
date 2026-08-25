@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Google's published TEST ad unit IDs (https://developers.google.com/admob/android/test-ads).
+  Safe to ship as-is during development - they always serve test creatives and
+  never generate real revenue or violate AdMob policy. TODO before release:
+  replace all three with this app's real ad unit IDs from the AdMob console,
+  and replace the AdMob application ID meta-data in AndroidManifest.xml too.
+-->
+<resources>
+    <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_rewarded_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+</resources>

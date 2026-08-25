@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>tower-peril</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>tower-peril-android</artifactId>
+  <packaging>apk</packaging>
+
+  <name>Tower Peril - Android</name>
+  <description>
+    Android launcher: AndroidApplication subclass wiring TowerPerilGame, a
+    real Google Mobile Ads implementation of AdsService, and gdx-pay's
+    Google Play Billing backend (including the season-pass subscription)
+    behind IapService. Packaging (apk) requires the Android SDK, which is
+    not present in this sandbox - see README.md.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.moneyfirst</groupId>
+      <artifactId>tower-peril-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-android</artifactId>
+      <version>${gdx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-armeabi-v7a</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-arm64-v8a</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-x86_64</classifier>
+    </dependency>
+
+    <!--
+      Current gdx-pay Android backend built on Google Play Billing Library
+      v6+ (com.android.billingclient.api.*), matching ${billing-client.version}
+      below and gdx-pay's actual Maven Central coordinates (verified against
+      repo.maven.apache.org - the artifact id is "googlebilling", one word,
+      not "google-play", and it is published as an .aar).
+    -->
+    <dependency>
+      <groupId>com.badlogicgames.gdxpay</groupId>
+      <artifactId>gdx-pay-android-googlebilling</artifactId>
+      <version>${gdx-pay.version}</version>
+      <type>aar</type>
+    </dependency>
+
+    <!-- Google Mobile Ads SDK for Android - published as an .aar on Google's Maven repo (see <repositories> below). -->
+    <dependency>
+      <groupId>com.google.android.gms</groupId>
+      <artifactId>play-services-ads</artifactId>
+      <version>${play-services-ads.version}</version>
+      <type>aar</type>
+    </dependency>
+    <!-- Google Play Billing Library - also an .aar, backs gdx-pay-android-googlebilling above. -->
+    <dependency>
+      <groupId>com.android.billingclient</groupId>
+      <artifactId>billing</artifactId>
+      <version>${billing-client.version}</version>
+      <type>aar</type>
+    </dependency>
+  </dependencies>
+
+  <!--
+    No explicit dependency on an "android.jar" SDK stub artifact: the real
+    android.jar for ${android-sdk.version} comes from a local Android SDK
+    install (ANDROID_HOME), resolved by the android-maven-plugin's
+    <sdk><platform> config below - Google has never published android.jar
+    itself to a Maven repository (com.google.android:android on Maven
+    Central stops at the ancient 4.1.1.4 / API 16 and is unrelated to this).
+  -->
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.simpligility.maven.plugins</groupId>
+        <artifactId>android-maven-plugin</artifactId>
+        <version>${android-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <sdk>
+            <platform>${android-sdk.version}</platform>
+          </sdk>
+          <undeployBeforeDeploy>true</undeployBeforeDeploy>
+          <manifest>
+            <versionCode>1</versionCode>
+            <versionName>1.0.0</versionName>
+          </manifest>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>google</id>
+      <url>https://maven.google.com</url>
+    </repository>
+  </repositories>
+</project>

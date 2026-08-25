@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Google's published TEST ad unit IDs (safe to ship in debug builds; they
+  always serve test creatives and never earn/spend real money). REPLACE every
+  value below with the real ad unit IDs from your AdMob console before a
+  store release - see README.md "Before store submission". Do not ship the
+  test IDs to production; AdMob will not pay out on test-ID impressions and
+  Google's policies expect production apps to use real ad unit IDs.
+-->
+<resources>
+    <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="admob_rewarded_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+</resources>

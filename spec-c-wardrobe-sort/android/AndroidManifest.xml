@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.moneyfirst.wardrobesort"
+    android:versionCode="1"
+    android:versionName="1.0.0">
+
+    <!--
+      minSdkVersion/targetSdkVersion mirror the reactor's ${android-min-sdk.version}
+      (24) / ${android-sdk.version} (34) properties. AndroidManifest.xml isn't
+      Maven-property-filtered by android-maven-plugin, so keep these two numbers
+      in sync with pom.xml by hand if those properties ever change.
+    -->
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="34" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <!-- AdMob requires this even for apps that only ever show test ads. -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        android:hardwareAccelerated="true">
+
+        <!--
+          TODO before release: replace with the real AdMob application ID from
+          the AdMob console. The value below is Google's published TEST app ID
+          (ca-app-pub-3940256099942544~3347511713) - shipping it to production
+          means only test ads will ever be requested.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
+        <activity
+            android:name="com.moneyfirst.wardrobesort.android.AndroidLauncher"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

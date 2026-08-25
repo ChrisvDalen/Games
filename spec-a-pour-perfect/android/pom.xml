@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>pour-perfect</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>pour-perfect-android</artifactId>
+  <packaging>apk</packaging>
+
+  <name>Pour Perfect - Android</name>
+  <description>
+    Android launcher: real Google Mobile Ads SDK (test ad unit IDs by default - see
+    res/values/ad_unit_ids.xml) and gdx-pay's Google Play Billing backend, wired into
+    PourPerfectGame from pour-perfect-core. NOT buildable in this sandbox (no Android SDK) -
+    see ../README.md for what has and hasn't been verified.
+  </description>
+
+  <properties>
+    <!-- android-maven-plugin needs the SDK platforms dir; standard local-install convention. -->
+    <android.sdk.path>${env.ANDROID_HOME}</android.sdk.path>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.moneyfirst</groupId>
+      <artifactId>pour-perfect-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-android</artifactId>
+      <version>${gdx.version}</version>
+      <type>aar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-armeabi-v7a</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-arm64-v8a</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-x86_64</classifier>
+    </dependency>
+
+    <!-- gdx-pay-android-googleplay wraps the old (Google-discontinued) AIDL-based in-app-billing
+         API and was last released in 2019; gdx-pay-android-googlebilling is the maintained
+         backend on top of the current Google Play Billing Library and is what we actually want. -->
+    <dependency>
+      <groupId>com.badlogicgames.gdxpay</groupId>
+      <artifactId>gdx-pay-android-googlebilling</artifactId>
+      <version>${gdx-pay.version}</version>
+      <type>aar</type>
+    </dependency>
+
+    <!-- Google Mobile Ads SDK for Android: real interstitial/rewarded/banner calls. -->
+    <dependency>
+      <groupId>com.google.android.gms</groupId>
+      <artifactId>play-services-ads</artifactId>
+      <version>${play-services-ads.version}</version>
+      <type>aar</type>
+    </dependency>
+    <!-- Google Play Billing, used transitively by gdx-pay's googlebilling backend but declared
+         explicitly too so its version is pinned via the reactor property rather than left
+         floating; as a direct dependency this also wins Maven's nearest-wins conflict resolution
+         over whatever transitive version gdx-pay-android-googlebilling itself requests. -->
+    <dependency>
+      <groupId>com.android.billingclient</groupId>
+      <artifactId>billing</artifactId>
+      <version>${billing-client.version}</version>
+      <type>aar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.android.gms</groupId>
+      <artifactId>play-services-basement</artifactId>
+      <version>${play-services-ads.version}</version>
+      <type>aar</type>
+    </dependency>
+
+    <dependency>
+      <groupId>androidx.appcompat</groupId>
+      <artifactId>appcompat</artifactId>
+      <version>1.7.0</version>
+      <type>aar</type>
+    </dependency>
+  </dependencies>
+
+  <repositories>
+    <!-- Google's own Maven repo hosts play-services-*, billing-client and androidx artifacts -
+         none of these are mirrored to Maven Central. -->
+    <repository>
+      <id>google</id>
+      <url>https://maven.google.com</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <finalName>pour-perfect</finalName>
+    <plugins>
+      <plugin>
+        <groupId>com.simpligility.maven.plugins</groupId>
+        <artifactId>android-maven-plugin</artifactId>
+        <version>${android-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <sdk>
+            <platform>${android-sdk.version}</platform>
+          </sdk>
+          <minSdkVersion>${android-min-sdk.version}</minSdkVersion>
+          <targetSdkVersion>${android-sdk.version}</targetSdkVersion>
+          <manifestFile>${project.basedir}/AndroidManifest.xml</manifestFile>
+          <resourceDirectory>${project.basedir}/res</resourceDirectory>
+          <assetsDirectory>${project.basedir}/../assets</assetsDirectory>
+          <undeployBeforeDeploy>true</undeployBeforeDeploy>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

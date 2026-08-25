@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>wardrobe-sort</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>wardrobe-sort-android</artifactId>
+  <packaging>apk</packaging>
+
+  <name>Wardrobe Sort - Android</name>
+  <description>
+    Android launcher: AndroidApplication subclass wiring WardrobeSortGame, a
+    real AdsService backed by the Google Mobile Ads SDK (test ad unit IDs by
+    default), and a real IapService backed by gdx-pay's Google Play Billing
+    backend. Not built/packaged in this sandbox (no Android SDK) - verify
+    `mvn -pl spec-c-wardrobe-sort/android -am package` on a machine with
+    ANDROID_HOME set before store submission.
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.moneyfirst</groupId>
+      <artifactId>wardrobe-sort-core</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- packaging="aar" (libGDX's Android backend ships as an Android library, not a plain jar). -->
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-backend-android</artifactId>
+      <version>${gdx.version}</version>
+      <type>aar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-armeabi-v7a</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-arm64-v8a</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.badlogicgames.gdx</groupId>
+      <artifactId>gdx-platform</artifactId>
+      <version>${gdx.version}</version>
+      <classifier>natives-x86_64</classifier>
+    </dependency>
+
+    <!-- packaging="aar". Pulls in gdx-pay-client transitively, plus its own transitive
+         com.android.billingclient:billing:8.0.0 - overridden below by the direct,
+         nearer ${billing-client.version} (7.1.1) dependency per Maven's
+         nearest-declaration-wins dependency mediation. -->
+    <dependency>
+      <groupId>com.badlogicgames.gdxpay</groupId>
+      <artifactId>gdx-pay-android-googlebilling</artifactId>
+      <version>${gdx-pay.version}</version>
+      <type>aar</type>
+    </dependency>
+
+    <!-- packaging="aar". Published on Google's Maven repository, not Maven Central - see
+         the <repositories> section below. -->
+    <dependency>
+      <groupId>com.google.android.gms</groupId>
+      <artifactId>play-services-ads</artifactId>
+      <version>${play-services-ads.version}</version>
+      <type>aar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.android.billingclient</groupId>
+      <artifactId>billing</artifactId>
+      <version>${billing-client.version}</version>
+      <type>aar</type>
+    </dependency>
+  </dependencies>
+
+  <!--
+    android-maven-plugin resolves android.jar itself from the Android SDK
+    (ANDROID_HOME) named by <sdk><platform>${android-sdk.version}</platform>
+    below - not via a Maven dependency - so no explicit
+    com.google.android:android compile-time stub is declared here.
+  -->
+
+  <repositories>
+    <!-- play-services-ads and billingclient (and their own transitive deps) are only
+         published here, not on Maven Central. Required for this module's dependencies
+         to resolve on a machine with real internet/Android-SDK access. -->
+    <repository>
+      <id>google</id>
+      <url>https://maven.google.com</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>com.simpligility.maven.plugins</groupId>
+        <artifactId>android-maven-plugin</artifactId>
+        <version>${android-maven-plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <sdk>
+            <platform>${android-sdk.version}</platform>
+          </sdk>
+          <manifestMerger>true</manifestMerger>
+          <undeployBeforeDeploy>true</undeployBeforeDeploy>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
