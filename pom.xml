@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.moneyfirst</groupId>
+  <artifactId>money-first-specs</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>Money-First App Specs</name>
+  <description>
+    Reactor for the three money-first mobile game specs (Pour Perfect, Tower Peril,
+    Wardrobe Sort). Each spec is an independent Maven multi-module project
+    (core / android / ios) sharing only version conventions, defined here.
+    This reactor is separate from the unrelated Gradle-built "Kepler's Harvest"
+    project at the repo root (build.gradle / settings.gradle / core / lwjgl3) -
+    the two build systems coexist without interfering with each other.
+  </description>
+
+  <modules>
+    <module>spec-a-pour-perfect</module>
+    <module>spec-b-tower-peril</module>
+    <module>spec-c-wardrobe-sort</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+
+    <!-- libGDX: shared core game code, Android backend, and iOS backend (via RoboVM/MobiVM). -->
+    <gdx.version>1.13.1</gdx.version>
+    <!-- MobiVM is the maintained RoboVM fork libGDX iOS builds use today. -->
+    <robovm.version>2.3.20</robovm.version>
+    <!-- gdx-pay: cross-platform IAP abstraction (Google Play Billing + Apple StoreKit backends). -->
+    <gdx-pay.version>1.4.0</gdx-pay.version>
+
+    <android-maven-plugin.version>4.6.0</android-maven-plugin.version>
+    <android-sdk.version>34</android-sdk.version>
+    <android-min-sdk.version>24</android-min-sdk.version>
+
+    <play-services-ads.version>23.6.0</play-services-ads.version>
+    <billing-client.version>7.1.1</billing-client.version>
+
+    <junit.version>5.14.4</junit.version>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+          <configuration>
+            <release>17</release>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.2.5</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>

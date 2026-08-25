@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.moneyfirst</groupId>
+    <artifactId>money-first-specs</artifactId>
+    <version>1.0.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>tower-peril</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Tower Peril (Spec B)</name>
+  <description>
+    Pin-pull rescue puzzle with a light auto-battler merge/gacha meta-layer. IAP/gacha-
+    driven monetization play: gem gacha rolls, merge-3 unit upgrades, a season-pass
+    subscription, and an interstitial-after-every-level ad pacing policy. libGDX
+    multi-module project: core (pure Java game logic + tests), android (APK via
+    android-maven-plugin), ios (IPA via robovm-maven-plugin).
+  </description>
+
+  <modules>
+    <module>core</module>
+    <module>android</module>
+    <module>ios</module>
+  </modules>
+</project>
