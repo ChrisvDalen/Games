@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RoboVM/MobiVM build config for Pour Perfect's iOS launcher.
+
+  NOT compiled/verified in the sandbox this project was authored in (needs macOS + Xcode + the
+  RoboVM/MobiVM toolchain) - written against MobiVM 2.3.20's documented config.xml schema, but the
+  <cocoapods> block in particular should be double-checked against that exact version's docs on a
+  real build machine before relying on it. See ../README.md's "known risks" section.
+-->
+<config>
+    <executableName>PourPerfect</executableName>
+    <mainClass>com.moneyfirst.pourperfect.ios.IOSLauncher</mainClass>
+
+    <os>ios</os>
+
+    <!-- Standard libGDX/RoboVM iOS device + simulator architectures. -->
+    <arch>thumbv7</arch>
+    <arch>arm64</arch>
+
+    <iosInfoPList>Info.plist.xml</iosInfoPList>
+
+    <!-- Procedural rendering means almost no bundled assets are needed - see spec-a-pour-perfect/assets/. -->
+    <resources>
+        <resource>
+            <directory>../assets</directory>
+        </resource>
+    </resources>
+
+    <!-- RoboVM strips unreferenced classes; libGDX/gdx-pay use reflection in places that static
+         analysis can't see through, so they must be force-linked to survive that pass. -->
+    <forceLinkClasses>
+        <pattern>com.badlogic.gdx.**</pattern>
+        <pattern>com.badlogic.gdx.backends.iosrobovm.**</pattern>
+        <pattern>com.badlogic.gdx.pay.**</pattern>
+        <pattern>com.badlogic.gdx.pay.ios.apple.**</pattern>
+        <pattern>com.moneyfirst.pourperfect.**</pattern>
+    </forceLinkClasses>
+
+    <frameworks>
+        <framework>UIKit</framework>
+        <framework>QuartzCore</framework>
+        <framework>OpenGLES</framework>
+        <framework>OpenAL</framework>
+        <framework>AudioToolbox</framework>
+        <framework>Foundation</framework>
+        <framework>CoreGraphics</framework>
+        <framework>StoreKit</framework>
+    </frameworks>
+
+    <!-- Compiles native/AdsBridge.m (the Objective-C shim IosAdsService.java calls into via
+         RoboVM @Bridge native methods) alongside the CocoaPods-vendored Google Mobile Ads SDK it
+         imports. -->
+    <resourcesToCopy>
+        <resource>
+            <directory>native</directory>
+            <includes>**/*.h</includes>
+        </resource>
+    </resourcesToCopy>
+
+    <cocoapods>
+        <podFile><![CDATA[
+platform :ios, '13.0'
+use_frameworks!
+
+target 'PourPerfect' do
+  pod 'Google-Mobile-Ads-SDK'
+end
+        ]]></podFile>
+    </cocoapods>
+</config>

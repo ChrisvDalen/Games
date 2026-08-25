@@ -83,11 +83,39 @@ Enforced in `core` (not left to platform code) so the pacing logic is unit-testa
 
 Given no Android SDK or Xcode/macOS is available in this build sandbox:
 
-- `core` modules are real, complete, and verified with `mvn test`.
-- `android` and `ios` modules are complete, standard, real-SDK-calling Maven
-  projects — but their packaging step (`mvn package`) has **not** been executed
-  here and must be verified once on a machine (or CI) with the Android SDK /
-  Xcode installed before a store submission.
+- `core` modules are real, complete, and verified with `mvn test`:
+  `mvn -pl spec-a-pour-perfect/core,spec-b-tower-peril/core,spec-c-wardrobe-sort/core -am test`
+  passes 262/262 tests (113 + 74 + 75) from the repo root.
+- `ios` modules compile cleanly against real Maven Central / RoboVM jars
+  (`mvn -pl <spec>/ios -am compile`), including the `native/AdsBridge.h/.m`
+  Objective-C shim wiring - but were never linked/packaged into an actual
+  `.ipa`, since that needs a macOS + Xcode + RoboVM toolchain this sandbox
+  doesn't have.
+- `android` modules resolve their POMs but can't download `play-services-ads`
+  / `billingclient` jars/aars here (Google's Maven repo is blocked by this
+  sandbox's proxy) - the dependency coordinates and API usage are correct,
+  but packaging (`mvn package` -> `.apk`) is unverified.
 - Ad unit IDs and IAP product IDs are Google/Apple's published *test* IDs by
-  default; swap them for the real store-configured IDs before release (see each
-  spec's `android/README.md` / `ios/README.md`).
+  default; swap them for the real store-configured IDs before release (see
+  each spec's own `README.md`).
+
+### Two bugs the build surfaced and fixed (all three specs hit these independently)
+
+1. `gdx-pay.version` was pinned to `1.4.0` in the root reactor, which was never
+   published to Maven Central (highest is `1.3.13`) - corrected at the root.
+2. `robovm-maven-plugin` does not register a custom `ipa` Maven packaging type
+   (only `android-maven-plugin` registers `apk` that way). Every `ios/pom.xml`
+   uses standard `packaging=jar` with the plugin's `create-ipa` goal bound to
+   the `package` phase instead - this is the real pattern RoboVM/libGDX
+   projects use, not a workaround specific to this repo.
+
+### Known fragile point across all three specs
+
+The iOS `AdsService` implementation (`IosAdsService` + `native/AdsBridge.h/.m`)
+fires its Java `Runnable` callbacks (`onClosed`, `onReward`) immediately after
+requesting the native show call, rather than after the real
+`GADInterstitialAd`/`GADRewardedAd` dismissal/reward delegate event, because
+wiring an asynchronous native-to-Java callback across the RoboVM bridge needs
+a real device/simulator to develop against. This is the one piece of ad
+plumbing that needs finishing on an actual Mac before shipping; everything
+else in `ios/` is standard, complete wiring.

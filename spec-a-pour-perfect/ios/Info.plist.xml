@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  NOT compiled/verified in the sandbox this project was authored in (needs macOS + Xcode). See
+  ../README.md's "known risks" section.
+-->
+<plist version="1.0">
+<dict>
+    <key>CFBundleDisplayName</key>
+    <string>Pour Perfect</string>
+    <key>CFBundleName</key>
+    <string>PourPerfect</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.moneyfirst.pourperfect</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleExecutable</key>
+    <string>PourPerfect</string>
+
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>armv7</string>
+    </array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UIRequiresFullScreen</key>
+    <true/>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+    <key>UIStatusBarHidden</key>
+    <true/>
+
+    <!--
+      AdMob application ID - REQUIRED by the Google Mobile Ads SDK or the app will crash on
+      startup. This is Google's published TEST app ID (ca-app-pub-3940256099942544~1458002511 is
+      Google's documented iOS test app ID) - replace with the real AdMob app ID from
+      https://apps.admob.com before any store release build. See README.md's checklist.
+    -->
+    <key>GADApplicationIdentifier</key>
+    <string>ca-app-pub-3940256099942544~1458002511</string>
+
+    <!--
+      Required (iOS 14.5+) if the app (or an SDK it uses, like Google Mobile Ads) requests the
+      IDFA for ad tracking/personalization. Shown in the App Tracking Transparency prompt.
+    -->
+    <key>NSUserTrackingUsageDescription</key>
+    <string>Pour Perfect uses this to show ads that are more relevant to you and to support the free version of the game.</string>
+
+    <!-- SKAdNetwork identifiers Google Mobile Ads uses for privacy-preserving ad attribution.
+         This is Google's own published list (see
+         https://developers.google.com/admob/ios/choose-networks#skadnetwork) - keep it in sync
+         with whatever mediation networks are actually enabled in the AdMob console. -->
+    <key>SKAdNetworkItems</key>
+    <array>
+        <dict>
+            <key>SKAdNetworkIdentifier</key>
+            <string>cstr6suwn9.skadnetwork</string>
+        </dict>
+    </array>
+</dict>
+</plist>

@@ -36,7 +36,9 @@ public class IOSLauncher extends IOSApplication.Delegate {
         // GdxPayIapService.attachProgressionState javadoc.
 
         PourPerfectGame game = new PourPerfectGame(adsService, iapService);
-        return new IOSApplication(game, config);
+        // Wrapped so IosAdsService can poll its native ad-completion flags once per frame - see
+        // PollingApplicationListener javadoc for why this lives here rather than in core.
+        return new IOSApplication(new PollingApplicationListener(game, adsService), config);
     }
 
     public static void main(String[] argv) {
